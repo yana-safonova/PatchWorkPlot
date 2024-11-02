@@ -18,7 +18,7 @@ def ColorByPercentIdentity(pi, config):
     min_pi = config.pi_min
     max_pi = config.pi_max
     fraction = (min(max(pi, min_pi), max_pi) - min_pi) / (max_pi - min_pi)
-    if config.reverse:
+    if config.cmap_reverse:
         fraction = 1 - fraction
     return GetColorByNormalizedValue(config.cmap, fraction)
 
@@ -26,3 +26,7 @@ def ModifyPos(pos, seq_len, strand):
     if strand == '+':
         return pos
     return seq_len - pos + 1
+
+def PrepareDir(dir_name):
+    if not os.path.exists(dir_name):
+        os.mkdir(dir_name)

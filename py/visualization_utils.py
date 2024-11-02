@@ -122,3 +122,54 @@ class LowerTriangleUtils:
     def VisualizeGenes(self, axes):
         gene_col_idx = self.GetGeneColumnIndex()
         self.gene_vis_utils.VisualizeGenes(axes, gene_col_idx)
+
+
+def GetRatios(aligned_data):
+    locus_lens = [aligned_data.GetLengthByIdx(i) for i in range(aligned_data.NumSamples())]
+    min_len = min(locus_lens)
+    ratios = [round(l / min_len, 2) for l in locus_lens]
+    return ratios
+
+def VisualizePlot(plot_utils, aligned_data, config):
+    #### get ratios
+    ratios = GetRatios(aligned_data)
+    width_ratios = plot_utils.GetWidthRatios(ratios)
+    fig, axes = plt.subplots(nrows = plot_utils.NumRows(), ncols = plot_utils.NumColumns(), figsize = (20, 20), gridspec_kw={'height_ratios': ratios, 'width_ratios' : width_ratios})
+
+    #### setting up axes
+    for i in range(plot_utils.NumRows()):
+        for j in range(plot_utils.NumColumns()):
+            plt.xticks([], [])
+            plt.yticks([], [])
+            axes[i, j].axis("off")
+
+    #### plotting alignments
+    for idx1, idx2 in aligned_data.IndexPairIterator():
+        plot_utils.SetCurrentAxes(axes, idx1, idx2)
+        df = aligned_data.GetAlignmentDF(idx1, idx2)
+        len1 = aligned_data.GetLengthByIdx(idx1)
+        len2 = aligned_data.GetLengthByIdx(idx2)
+        for i in range(len(df)):
+            pos1 = [df['start1_dir'][i], df['end1_dir'][i]]
+            pos2 = [df['start2_dir'][i], df['end2_dir'][i]]
+            scaled_pos1 = [pos / len1 * config.plot_scale for pos in pos1]
+            scaled_pos2 = [pos / len2 * config.plot_scale for pos in pos2]
+            pi = df['id%'][i]
+            pi_color = utils.ColorByPercentIdentity(pi, config)
+            x, y = plot_utils.GetLineCoordinates(scaled_pos1[0], scaled_pos1[1], scaled_pos2[0], scaled_pos2[1], config.plot_scale)
+            plt.plot(x, y, color = pi_color, linewidth=config.linewidth, linestyle = '-', marker = 'None')
+        plt.xlim(0, config.plot_scale)
+        plt.ylim(0, config.plot_scale)
+        plt.xticks([], [])
+        plt.yticks([], [])
+
+    #### adding labels and gene positions
+    plot_utils.SetLabels(axes, [aligned_data.GetLabelByIdx(idx) for idx in range(aligned_data.NumSamples())])
+    plot_utils.VisualizeGenes(axes)
+
+    #### output plot as .PNG, .PDF
+    plt.subplots_adjust(hspace = 0, wspace = 0)
+    plt.savefig(os.path.join(config.output_dir, 'dotplot.png'), dpi = 300, transparent = config.transparent)
+    plt.savefig(os.path.join(config.output_dir, 'dotplot.pdf'), dpi = 300)
+    plt.clf()
+

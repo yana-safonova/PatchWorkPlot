@@ -64,14 +64,17 @@ class YassPairwiseAligner:
         return
 
 class AlignedData:
-    def __init__(self, input_data, pairwise_aligner, align_dir, config):
+    def __init__(self, input_data, pairwise_aligner, config):
         self.input_data = input_data
         self.pairwise_aligner = pairwise_aligner
-        self.align_dir = align_dir
+        self.align_dir = config.align_dir
         self.config = config
+        print('Computing pairwise alignments...')
         self._PerformPairwiseAlignments()
         self._ReadAlignments()
+        print('Redefining strands...')
         self._RedefineStrands()
+        print('Redirecting alignments...')
         self._RedirectAlignments()
 
     def _PerformPairwiseAlignments(self):
