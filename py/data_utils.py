@@ -35,13 +35,20 @@ class InputData:
     def NumSamples(self):
         return len(self.species_names)
 
+    def GetGeneTableByIdx(self, idx):
+        return pd.read_csv(self.data_df['GeneTxt'][idx], sep = '\t')
+
+    #### refactor!
+    def GetStartPosByIdx(self, idx):
+        return self.data_df['StartPos'][idx]
+
 class LastZPairwiseAligner:
     def __init__(self, align_dir):
         self.lastz_params = '--step=20 --notransition --format=general:name1,strand1,start1,end1,length1,name2,strand2,start2+,end2+,length2,id%'
         self.align_dir = align_dir
 
     def AlignTwoFasta(self, fasta1, fasta2, output_fname):
-        os.system('lastz ' + fasta1 + ' ' + fasta2 + ' ' + self.lastz_params + ' --output=' + self.output_fname)
+        os.system('lastz ' + fasta1 + ' ' + fasta2 + ' ' + self.lastz_params + ' --output=' + output_fname)
 
     def GetAlignedDF(self, output_fname):
         return pd.read_csv(output_fname, sep = '\t')
@@ -142,8 +149,18 @@ class AlignedData:
     def NumSamples(self):
         return self.input_data.NumSamples()
 
+    def GetGeneTableByIdx(self, idx):
+        return self.input_data.GetGeneTableByIdx(idx)
+
+    #### refactor!
+    def GetStartPosByIdx(self, idx):
+        return self.input_data.GetStartPosByIdx(idx)
+
     def GetAlignmentDF(self, idx1, idx2):
         return self.align_dfs[idx1, idx2]
+
+    def GetStrandByIdx(self, idx):
+        return self.strands[idx]
 
     def ReportSummaryAlignmentStats(self, output_fname):
         stats_df = {'Label1' : [], 'Label2' : [], 'Idx1' : [], 'Idx2' : [], 'PI' : []}

@@ -57,29 +57,14 @@ def VisualizePlot(plot_utils, ratios, aligned_data, config):
         plt.xticks([], [])
         plt.yticks([], [])
 
-    #### adding labels
+    #### adding labels and gene positions
     plot_utils.SetLabels(axes, [aligned_data.GetLabelByIdx(idx) for idx in range(aligned_data.NumSamples())])
+    plot_utils.VisualizeGenes(axes)
 
-    #### adding V genes
-    #for idx in range(len(data_df)):
-    #    start_pos = data_df['StartPos'][idx]
-    #    gene_df = pd.read_csv(data_df['GeneTxt'][idx], sep = '\t')
-    #    gene_df['LocusPos'] = [gene_df['Pos'][i] - start_pos for i in range(len(gene_df))]
-    #    locus_len = locus_lens[idx]
-    #    plt.sca(axes[idx][gene_col_idx])
-    #    axes[idx][gene_col_idx].axis('on')
-    #    for i in range(len(gene_df)):
-    #        gene_pos = utils.ModifyPos(gene_df['LocusPos'][i], locus_len, strands[idx])
-    #        scale_pos = config.plot_scale - gene_pos / locus_len * config.plot_scale
-    #        plt.plot([0, 1], [scale_pos, scale_pos], linestyle = '-', marker = 'None', color = 'black')
-    #    plt.xlim(0, 1)
-    #    plt.ylim(0, config.plot_scale)
-    #    plt.xticks([], [])
-    #    plt.yticks([], [])
-
+    #### output plot as .PNG, .PDF
     plt.subplots_adjust(hspace = 0, wspace = 0)
-    plt.savefig(os.path.join(output_dir, '_dotplot.png'), dpi = 300, transparent = config.transparent)
-    plt.savefig(os.path.join(output_dir, '_dotplot.pdf'), dpi = 300)
+    plt.savefig(os.path.join(output_dir, 'dotplot.png'), dpi = 300, transparent = config.transparent)
+    plt.savefig(os.path.join(output_dir, 'dotplot.pdf'), dpi = 300)
     plt.clf()
 
 def GetRatios(aligned_data):
@@ -94,13 +79,16 @@ def main(data_csv, output_dir):
     config = Config()
 
     input_data = data_utils.InputData(data_csv)
-    pairwise_aligner = data_utils.LastZPairwiseAligner(output_dir)
-    aligned_data = data_utils.AlignedData(input_data, pairwise_aligner, output_dir, config)
+    align_dir = os.path.join(output_dir, 'pairwise_alignments')
+    if not os.path.exists(align_dir):
+        os.mkdir(align_dir)
+    pairwise_aligner = data_utils.LastZPairwiseAligner(align_dir)
+    aligned_data = data_utils.AlignedData(input_data, pairwise_aligner, align_dir, config)
     aligned_data.ReportSummaryAlignmentStats(os.path.join(output_dir, 'pi_stats.csv')) 
 
     ratios = GetRatios(aligned_data)
-    gene_visualizer = vis.EmptyGeneVisualizer(config, aligned_data.NumSamples())
-    plot_visualizer = vis.UpperTriangleUtils(aligned_data.NumSamples(), gene_visualizer)
+    gene_visualizer = vis.SimpleGeneVisualizer(config, aligned_data)
+    plot_visualizer = vis.LowerTriangleUtils(aligned_data, gene_visualizer)
     VisualizePlot(plot_visualizer, ratios, aligned_data, config)
 
 
