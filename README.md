@@ -2,9 +2,12 @@
 A tool for visualization of pairwise alignments of multiple sequences as an upper or lower triangular matrix.
 
 ## Dependencies
+- Pandas
+- BioPython
+- LASTZ or YASS
 
 ## Input Parameters
-### Mandatory parameters
+### Required parameters
 `-i INPUT_CONFIG.CSV`: a configuration file containing information about input sequences in the CSV format. The configuration file contains the following colummns:
 - `SampleID`: a unique identifier of each sequence (mandatory).
 - `Fasta`: a complete path to each sequence in FASTA format (mandatory).
@@ -13,10 +16,10 @@ A tool for visualization of pairwise alignments of multiple sequences as an uppe
   
 An example of the configuration file can be found here.
 
-`-o OUTPUR_DIR`: an output directory.
+`-o OUTPUR_DIR`: the name of output directory. If the directory does not exist, it will be created.
 
 ### Optional parameters
-`--aligner NAME`: the name of tool used for pairwise alignment sequences. `lastz` (LastZ) and `yass` (YASS) options are available. Default: `lastz`. 
+`--aligner NAME`: the name of tool used for pairwise alignment sequences. `lastz` (LASTZ) and `yass` (YASS) options are available. Default: `lastz`. 
 
 `--cmap NAME`: the name of coloring map used for visualization of alignments. The minimum and maximum values of percent identity thresholds (`min-pi` and `max-pi`) will be used to determine the color of the alignment: 
 - Alignments with percent identity below `min-pi` will be shown using the leftmost color in the coloring cmap.
@@ -44,7 +47,7 @@ For the list of available coloring maps, please refer to the [Matplotlib documen
 `--help`: print help.
 
 ### Default parameters
-Default values of input parameters are stored in `default_params.txt`. It covers the parameters described above as well as the parameters of LastZ alignments. The file can be modified to change the default values and avoid passing the arguments through the arguments of the command line.   
+Default values of input parameters are stored in `default_params.txt`. It covers the parameters described above as well as the parameters of LASTZ alignments. The file can be modified to change the default values and avoid passing the arguments through the arguments of the command line.   
 
 ## Usage
 An example of visualization of a lower-triangular patchwork plot using the `PuBuGn` coloring map (the direct orientation) with an increased line width and without gene positions: 
@@ -64,6 +67,16 @@ will use alignments in the `patchwork_output` direcitory and modify the patchwor
 - reporting an upper triangular matrix. 
 
 ### Visualization of IgDetective results
+PatchWorkPlot is useful to visualize highly repetitive sequences or sequences with a high density of structural variations such as immunoglobulin and T-cell receptor loci. A script `generate_igdetective_config.py` simplifies analysis of adaptive immune loci annotated using the IgDetective tool and generates a config file that can be used as an input to PatchWorkPlot. To run the script, use the following command line:
+
+`python generate_igdetective_config.py PATHS_TO_IGDETECTIVE_DIRS LOCUS OUTPUT_DIR`
+
+where:
+- `PATHS_TO_IGDETECTIVE_DIRS` is a space- or comma-separated paths to output directories of IgDetective. If the paths are separated by spaces, make sure to put them in double quotes.
+- `LOCUS`: a type of adaptive immune locus for which the config will be generated. Available options are `IGH, IGK, IGL, TRA, TRB, TRG`.
+- `OUTPUT_DIR`: the name of output directory. If the directory does not exist, it will be created.
 
 ## Gallery
+
+
 ## Citation
