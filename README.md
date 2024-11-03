@@ -90,7 +90,7 @@ The following command lines generates a configuration file and converts gene fil
 
 Then, PatchWorkPlot takes the compiled configuration file and visualizes pairwise alignments of IGH loci. The `--show-genes` option is used to illustrate positions of IGH genes predicted by IgDetective: 
 
-`python PatchWorkPlot.py -o cat_config_preparation/patchworkplot_config.csv -o cats_patchworkplot --show-genes`
+`python PatchWorkPlot.py -o cats_configuration/config.csv -o cats_patchworkplot --show-genes`
 
 ## Gallery
 
