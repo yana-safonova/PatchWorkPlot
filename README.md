@@ -2,9 +2,9 @@
 A tool for visualization of pairwise alignments of multiple sequences as an upper or lower triangular matrix.
 
 ## Dependencies
-- Pandas
-- BioPython
-- LASTZ or YASS
+- [Pandas](https://anaconda.org/anaconda/pandas)
+- [BioPython](https://anaconda.org/conda-forge/biopython)
+- [LASTZ](https://anaconda.org/bioconda/lastz) and/or [YASS](https://anaconda.org/bioconda/yass)
 
 ## Input Parameters
 ### Required parameters
