@@ -52,7 +52,7 @@ An example of visualization of a lower-triangular patchwork plot using the `PuBu
 `python PatchWorkPlot.py -i input_config.csv -o patchwork_output --cmap PuBuGn --reverse-cmap false --lwidth 2 --lower`
 
 
-Please note that the pairwise alignment is the most time-consuming step. If you want to change visualization details for previously aligned sequences, you can specify the existing output directory and change visualization parameters. E.g.: the command line:
+Please note that the pairwise alignment is the most time-consuming step. If you want to change visualization of previously aligned sequences, you can rerun PatchWorkPlot specifying the existing output directory through `-o` and changing the desired visualization parameters. E.g.: the command line:
 
 `python PatchWorkPlot.py -i input_config.csv -o patchwork_output --cmap jet --reverse-cmap false --min-len 10000 --show-genes`
 
