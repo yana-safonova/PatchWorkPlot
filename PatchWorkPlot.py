@@ -1,40 +1,21 @@
 import os
 import sys
 import pandas as pd
-from Bio import SeqIO
+import getopt
 
 sys.path.append('py')
+import config_utils
 import visualization_utils as vis_utils
 import utils
 import data_utils
 import tool_builder
 
-class Config:
-    def __init__(self, output_dir):
-        #### alignment params
-        self.min_align_len = 10000
-        self.alignment_method = 'yass' #'lastz' # or 'yass'  
+def main(command_args):
+    default_params_txt = 'config.txt'
+    config = config_utils.Config(default_params_txt, command_args)
+    utils.PrepareDir(config.output_dir)
 
-        #### visualization params
-        self.pi_min = 90
-        self.pi_max = 100
-        self.plot_scale = 1000
-        self.cmap = 'Spectral'
-        self.cmap_reverse = True
-        self.upper_triangle = True
-        self.linewidth = 1
-        self.show_genes = True
-
-        #### output params
-        self.transparent = False
-        self.output_dir = output_dir
-        self.align_dir = os.path.join(self.output_dir, 'pairwise_alignments')
-
-def main(data_csv, output_dir):
-    config = Config(output_dir)
-    utils.PrepareDir(output_dir)
-
-    input_data = data_utils.InputData(data_csv)
+    input_data = data_utils.InputData(config.input_csv)
     utils.PrepareDir(config.align_dir)
 
     aligner_builder = tool_builder.AlignerFactory(config)
@@ -52,6 +33,4 @@ def main(data_csv, output_dir):
     print('\nThank you for using PatchworkPlot!')
 
 if __name__ == '__main__':
-    input_csv = sys.argv[1]
-    output_dir = sys.argv[2]
-    main(input_csv, output_dir)
+    main(argv[1:])
