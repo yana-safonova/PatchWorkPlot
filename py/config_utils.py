@@ -13,16 +13,16 @@ class Config:
         self.input_csv = ''
 
         #### alignment params
-        self.min_align_len = 10000
+        self.min_align_len = 5000
         self.alignment_method = 'lastz' # or 'yass'
         self.lastz_params = '--step=20 --notransition'
 
         #### visualization params
-        self.pi_min = 90
+        self.pi_min = 85
         self.pi_max = 100
         self.plot_scale = 1000
         self.cmap = 'Spectral'
-        self.cmap_reverse = False
+        self.cmap_reverse = True
         self.upper_triangle = True
         self.linewidth = 1
         self.show_genes = False

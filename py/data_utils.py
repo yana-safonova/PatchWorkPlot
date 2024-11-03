@@ -58,11 +58,20 @@ class YassPairwiseAligner:
         self.config = config
 
     def AlignTwoFasta(self, fasta1, fasta2, output_fname):
-        os.system('yass -d 2 -o ' + output_fname + ' ' + fasta1 + ' ' + fasta2)
+        os.system('yass -d 2 -o ' + output_fname + ' ' + fasta1 + ' ' + fasta2 + ' > /dev/null 2>&1')
 
     def GetAlignedDF(self, output_fname):
-        df = pd.read_csv(output_fname, sep = '\t')
-        df['id%'] = [str(df['id%'][i]) + '%' for i in range(len(df))]
+        lines = open(output_fname).readlines()[1:]
+        df = {'id%' : [], 'start1' : [], 'end1' : [], 'start2' : [], 'end2' : []}
+        for l in lines:
+            splits = l.strip().split()        
+            # 0name1	1name2	2id%	3alignment_length	4mismatches	5gap_opening	6start1	7end1	8start2	9end2	eval	bit_score
+            df['id%'].append(splits[2] + '%')
+            df['start1'].append(int(splits[6]))
+            df['end1'].append(int(splits[7]))
+            df['start2'].append(int(splits[8]))
+            df['end2'].append(int(splits[9]))
+        df = pd.DataFrame(df)
         start_list = []
         end_list = []
         strand_list = []
@@ -80,6 +89,7 @@ class YassPairwiseAligner:
         df['strand2'] = strand_list
         df['length1'] = [abs(df['start1'][i] - df['end1'][i]) for i in range(len(df))]
         df['length2'] = [abs(df['start2'][i] - df['end2'][i]) for i in range(len(df))]
+        print('parsing ' + output_fname + '...')
         return df
 
 class AlignedData:
