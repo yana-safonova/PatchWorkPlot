@@ -33,7 +33,7 @@ For the list of available coloring maps, please refer to the [Matplotlib documen
 
 `--min-len INT`: only alignments of lengths exceeding `min-len` will be visualized. Default: `5000`.
 
-`--lwidth INT': the width of lines showing alignments on the final plot. Default: `1`. 
+`--lwidth INT`: the width of lines showing alignments on the final plot. Default: `1`. 
 
 `--lower`: if specified, alignments will be visualized as a lower triangular matrix instead of an upper triangular matrix. 
 
