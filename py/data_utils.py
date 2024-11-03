@@ -43,9 +43,9 @@ class InputData:
         return self.data_df['StartPos'][idx]
 
 class LastZPairwiseAligner:
-    def __init__(self, align_dir):
+    def __init__(self, config):
+        self.config = config
         self.lastz_params = '--step=20 --notransition --format=general:name1,strand1,start1,end1,length1,name2,strand2,start2+,end2+,length2,id%'
-        self.align_dir = align_dir
 
     def AlignTwoFasta(self, fasta1, fasta2, output_fname):
         os.system('lastz ' + fasta1 + ' ' + fasta2 + ' ' + self.lastz_params + ' --output=' + output_fname)
@@ -54,14 +54,33 @@ class LastZPairwiseAligner:
         return pd.read_csv(output_fname, sep = '\t')
 
 class YassPairwiseAligner:
-    def __init__(self, align_dir):
-        self.align_dir = align_dir
+    def __init__(self, config):
+        self.config = config
 
-    def AlignTwoFasta(self, fasta1, fasta2, output_basename):
-        return 
+    def AlignTwoFasta(self, fasta1, fasta2, output_fname):
+        os.system('yass -d 2 -o ' + output_fname + ' ' + fasta1 + ' ' + fasta2)
 
-    def GetAlignedDF(self):
-        return
+    def GetAlignedDF(self, output_fname):
+        df = pd.read_csv(output_fname, sep = '\t')
+        df['id%'] = [str(df['id%'][i]) + '%' for i in range(len(df))]
+        start_list = []
+        end_list = []
+        strand_list = []
+        for i in range(len(df)):
+            if df['start2'][i] < df['end2'][i]:
+                start_list.append(df['start2'][i])
+                end_list.append(df['end2'][i])
+                strand_list.append('+')
+            else:
+                start_list.append(df['end2'][i])
+                end_list.append(df['start2'][i])
+                strand_list.append('-')
+        df['start2+'] = start_list
+        df['end2+'] = end_list
+        df['strand2'] = strand_list
+        df['length1'] = [abs(df['start1'][i] - df['end1'][i]) for i in range(len(df))]
+        df['length2'] = [abs(df['start2'][i] - df['end2'][i]) for i in range(len(df))]
+        return df
 
 class AlignedData:
     def __init__(self, input_data, pairwise_aligner, config):

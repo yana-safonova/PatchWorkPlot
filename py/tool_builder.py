@@ -1,0 +1,31 @@
+import os
+import sys
+
+import data_utils
+import visualization_utils as vis_utils
+
+class AlignerFactory:
+    def __init__(self, config):
+        self.config = config
+
+   def GetAligner(self):
+       if config.alignment_method == 'yass':
+           return data_utils.YassPairwiseAligner(config)
+       return data_utils.LastZPairwiseAligner(config)
+
+class VisualizerBuilder:
+    def __init__(self, config, aligned_data):
+        self.config = config
+        self.aligned_data = aligned_data
+
+    def _GetGeneVisualizer(self):
+        if self.config.show_genes:
+            return vis_utils.SimpleGeneVisualizer(self.config, self.aligned_data)
+        return vis_utils.EmptyGeneVisualizer(self.config, self.aligned_data)
+
+    def GetPlotVisualizer(self):
+        gene_visualizer = self._GetGeneVisualizer()
+        if self.config.upper_triangle:
+            return vis_utils.UpperTriangleUtils(self.aligned_data, gene_visualizer)
+        return vis_utils.LowerTriangleUtils(self.aligned_data, gene_visualizer)
+        
