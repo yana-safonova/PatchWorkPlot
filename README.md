@@ -82,7 +82,7 @@ Directory `test_dataset` includes five IgDetective directories containing result
 - the mountain lion, haplotype 2
 - the clouded leopard
 - the bobcat
-- the domestic data
+- the domestic cat
 
 The following command lines generates a configuration file and converts gene files to BED format:
 
