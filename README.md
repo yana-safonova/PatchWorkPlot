@@ -76,6 +76,8 @@ where:
 - `LOCUS`: a type of adaptive immune locus for which the config will be generated. Available options are `IGH, IGK, IGL, TRA, TRB, TRG`.
 - `OUTPUT_DIR`: the name of output directory. If the directory does not exist, it will be created.
 
+#### Example of joint usage IgDetective & PatchWorkPlot 
+
 ## Gallery
 
 
