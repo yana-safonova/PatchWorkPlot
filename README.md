@@ -1,15 +1,8 @@
 # PatchWorkPlot
-A tool for visualization of pairwise alignments of multiple sequences as an upper or lower triangular matrix
- _ _ _ _ _ _ 
-|\  |\ \  |.|
-|_ \|_ _ _|_|
-    |\ \  |.|
-    |\ \  |.|
-    |_ _ \|_|
-          |_|
+A tool for visualization of pairwise alignments of multiple sequences as an upper or lower triangular matrix.
 
 ## Dependencies
-## Parameters
+## Input Parameters
 ## Usage
 ## Gallery
 ## Citation
