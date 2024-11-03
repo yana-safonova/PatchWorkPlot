@@ -77,12 +77,12 @@ where:
 - `OUTPUT_DIR`: the name of output directory. If the directory does not exist, it will be created.
 
 #### Example of joint usage of IgDetective & PatchWorkPlot 
-Directory `test_dataset` includes five IgDetective directories containing results of IGH locus annotation for five cat genomes: 
-- the mountain lion, haplotype 1
-- the mountain lion, haplotype 2
-- the clouded leopard
-- the bobcat
-- the domestic cat
+The directory `test_dataset` includes five IgDetective directories containing results of IGH locus annotation for five cat genomes: 
+- `test_dataset/`: the mountain lion, haplotype 1
+- `test_dataset/`: the mountain lion, haplotype 2
+- `test_dataset/`: the clouded leopard
+- `test_dataset/`: the bobcat
+- `test_dataset/`: the domestic cat
 
 The following command lines generates a configuration file and converts gene files to BED format:
 
