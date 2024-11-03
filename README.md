@@ -12,7 +12,7 @@ A tool for visualization of pairwise alignments of multiple sequences as [dot pl
 - `SampleID`: a unique identifier of each sequence (mandatory).
 - `Fasta`: a complete path to each sequence in FASTA format (mandatory).
 - `Label`: labels will be used in the output plot and, unlike SampleIDs, do not have to be unique to a sequence (mandatory).
-- `GeneBED`: a complete path to genes in BED format (optional).
+- `Annotation`: a complete path to annotation in BED format (optional).
   
 An example of the configuration file can be found here.
 
@@ -28,7 +28,7 @@ An example of the configuration file can be found here.
   
 For the list of available coloring maps, please refer to the [Matplotlib documentation](https://matplotlib.org/stable/users/explain/colors/colormaps.html). Default: `Spectral`.
 
-`--reverse-cmap BOOLEAN`: if `true`, then `min-pi` and `max-pi` values of the percent identities will correspond to the rightmost and leftmost colors of the coloring map, repsectively. In case of the Spectral map, alignments with high and low percent identity will colored in red and blue, respectively. Default: `true`.  
+`--reverse-cmap BOOLEAN`: if `true`, then `min-pi` and `max-pi` values of the percent identities will correspond to the rightmost and leftmost colors of the coloring map, respectively. In case of the Spectral map, alignments with high and low percent identity will colored in red and blue, respectively. Default: `true`.  
 
 `--min-pi FLOAT`: the alignment percent identity value that will be used to determine the color of the least similar alignments. Default: `85`.
 
@@ -40,7 +40,7 @@ For the list of available coloring maps, please refer to the [Matplotlib documen
 
 `--lower`: if specified, alignments will be visualized as a lower triangular matrix instead of an upper triangular matrix. 
 
-`--show-genes`: if specified, gene positions will be extracted from `INPUT_CONFIG.CSV` and shown on the side of the plot. 
+`--show-annot`: if specified, annotations will be extracted from `INPUT_CONFIG.CSV` (column `Annotation`) and shown on the side of the plot. 
 
 `--transparent`: if specified, the .PNG version of the plot will have a transparent background.  
 
@@ -57,7 +57,7 @@ An example of visualization of a lower-triangular patchwork plot using the `PuBu
 
 Please note that the pairwise alignment is the most time-consuming step. If you want to change visualization of previously aligned sequences, you can rerun PatchWorkPlot specifying the existing output directory through `-o` and changing the desired visualization parameters. E.g.: the command line:
 
-`python PatchWorkPlot.py -i input_config.csv -o patchwork_output --cmap jet --reverse-cmap false --min-len 10000 --show-genes`
+`python PatchWorkPlot.py -i input_config.csv -o patchwork_output --cmap jet --reverse-cmap false --min-len 10000 --show-annot`
 
 will use alignments in the `patchwork_output` direcitory and modify the patchworkplot by: 
 - changing the coloring map to `jet`,
@@ -88,9 +88,9 @@ The following command lines generates a configuration file and converts gene fil
 
 `python generate_igdetective_config.py "" IGH cats_configuration`
 
-Then, PatchWorkPlot takes the compiled configuration file and visualizes pairwise alignments of IGH loci. The `--show-genes` option is used to illustrate positions of IGH genes predicted by IgDetective: 
+Then, PatchWorkPlot takes the compiled configuration file and visualizes pairwise alignments of IGH loci. The `--show-annot` option is used to illustrate positions of IGH genes predicted by IgDetective: 
 
-`python PatchWorkPlot.py -o cats_configuration/config.csv -o cats_patchworkplot --show-genes`
+`python PatchWorkPlot.py -o cats_configuration/config.csv -o cats_patchworkplot --show-annot`
 
 ## Gallery
 
