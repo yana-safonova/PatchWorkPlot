@@ -34,7 +34,7 @@ class Config:
     def _ParseCommandLineParams(self, command_args):
         opts = []
         try:
-            opts, args = getopt.getopt(command_args, 'i:o:',  ['min-pi=', 'max-pi=', 'aligner=', 'min-len=', 'cmap=', 'reverse-cmap', 'lower', 'lwidth=', 'show-genes', 'transparent'])
+            opts, args = getopt.getopt(command_args, 'i:o:',  ['min-pi=', 'max-pi=', 'aligner=', 'min-len=', 'cmap=', 'reverse-cmap=', 'lower', 'lwidth=', 'show-genes', 'transparent', 'help'])
         except:
             print('Error')
         for opt, arg in opts:
@@ -53,7 +53,7 @@ class Config:
             elif opt == '--cmap':
                 self.cmap = arg
             elif opt == '--reverse-cmap':
-                self.cmap_reverse = True
+                self.cmap_reverse = bool(arg)
             elif opt == '--lower':
                 self.upper_triangle = False
             elif opt == '--lwidth':
@@ -62,8 +62,14 @@ class Config:
                 self.show_genes = True
             elif opt == '--transparent':
                 self.transparent = True
+            elif opt == '--help':
+                self.PrintHelpMessage()
+                sys.exit(0)
 
     def _CheckParameterCompleteness(self):
         #### check existence of input_csv / output_dir
         self.align_dir = os.path.join(self.output_dir, 'pairwise_alignments')
         self.align_stats_csv = os.path.join(self.output_dir, 'alignment_stats.csv')
+
+    def PrintHelpMessage(self):
+        print('python PatchWorkPlot.py -i INPUT_CONFIG.CSV -o OUTPUT_DIR [--aligner METHOD --min-pi FLOAT --max-pi FLOAT --min-len INT --cmap CMAP_NAME --reverse-cmap BOOL --lower --lwidth INT --show-genes --transparent --help]')
