@@ -8,10 +8,10 @@ class AlignerFactory:
     def __init__(self, config):
         self.config = config
 
-   def GetAligner(self):
-       if config.alignment_method == 'yass':
-           return data_utils.YassPairwiseAligner(config)
-       return data_utils.LastZPairwiseAligner(config)
+    def GetAligner(self):
+        if self.config.alignment_method == 'yass':
+            return data_utils.YassPairwiseAligner(self.config)
+        return data_utils.LastZPairwiseAligner(self.config)
 
 class VisualizerBuilder:
     def __init__(self, config, aligned_data):

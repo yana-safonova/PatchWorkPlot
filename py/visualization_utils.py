@@ -169,7 +169,7 @@ def VisualizePlot(plot_utils, aligned_data, config):
 
     #### output plot as .PNG, .PDF
     plt.subplots_adjust(hspace = 0, wspace = 0)
-    plt.savefig(os.path.join(config.output_dir, 'dotplot.png'), dpi = 300, transparent = config.transparent)
-    plt.savefig(os.path.join(config.output_dir, 'dotplot.pdf'), dpi = 300)
+    plt.savefig(os.path.join(config.output_dir, 'patchworkplot.png'), dpi = 300, transparent = config.transparent)
+    plt.savefig(os.path.join(config.output_dir, 'patchworkplot.pdf'), dpi = 300)
     plt.clf()
 

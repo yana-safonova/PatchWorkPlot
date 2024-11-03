@@ -10,6 +10,15 @@ import utils
 import data_utils
 import tool_builder
 
+def PrintPatchWorkLogo():
+    print(' _ _ _ _ _ _')
+    print('|\\  |\\ \\  |.|')
+    print('|_ \\|_ _ _|_|')
+    print('    |\\ \\  |.|')
+    print('    |\\ \\  |.|')
+    print('    |_ _ \\|_|')
+    print('          |_|')
+
 def main(command_args):
     default_params_txt = 'config.txt'
     config = config_utils.Config(default_params_txt, command_args)
@@ -21,7 +30,7 @@ def main(command_args):
     aligner_builder = tool_builder.AlignerFactory(config)
     pairwise_aligner = aligner_builder.GetAligner()
     aligned_data = data_utils.AlignedData(input_data, pairwise_aligner, config)
-    aligned_data.ReportSummaryAlignmentStats(os.path.join(output_dir, 'pi_stats.csv')) 
+    aligned_data.ReportSummaryAlignmentStats(config.align_stats_csv) 
     print('Alignment stage is complete')
 
     print('\nVisualizing alignments...')
@@ -31,6 +40,7 @@ def main(command_args):
     print('Visualization stage is complete')
 
     print('\nThank you for using PatchworkPlot!')
+    PrintPatchWorkLogo()
 
 if __name__ == '__main__':
-    main(argv[1:])
+    main(sys.argv[1:])
