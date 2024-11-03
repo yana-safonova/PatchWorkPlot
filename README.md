@@ -72,7 +72,7 @@ PatchWorkPlot is useful to visualize highly repetitive sequences or sequences wi
 `python generate_igdetective_config.py PATHS_TO_IGDETECTIVE_DIRS LOCUS OUTPUT_DIR`
 
 where:
-- `PATHS_TO_IGDETECTIVE_DIRS` is a space- or comma-separated paths to output directories of IgDetective. If the paths are separated by spaces, make sure to put them in double quotes.
+- `PATHS_TO_IGDETECTIVE_DIRS` is a space- or comma-separated paths to output directories of IgDetective. If the paths are separated by spaces, make sure to put them in double quotes: `"PATH_1 PATH_2 ... PATH_N"`.
 - `LOCUS`: a type of adaptive immune locus for which the config will be generated. Available options are `IGH, IGK, IGL, TRA, TRB, TRG`.
 - `OUTPUT_DIR`: the name of output directory. If the directory does not exist, it will be created.
 
