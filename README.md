@@ -76,7 +76,21 @@ where:
 - `LOCUS`: a type of adaptive immune locus for which the config will be generated. Available options are `IGH, IGK, IGL, TRA, TRB, TRG`.
 - `OUTPUT_DIR`: the name of output directory. If the directory does not exist, it will be created.
 
-#### Example of joint usage IgDetective & PatchWorkPlot 
+#### Example of joint usage of IgDetective & PatchWorkPlot 
+Directory `test_dataset` includes five IgDetective directories containing results of IGH locus annotation for five cat genomes: 
+- the mountain lion, haplotype 1
+- the mountain lion, haplotype 2
+- the clouded leopard
+- the bobcat
+- the domestic data
+
+The following command lines generates a configuration file and converts gene files to BED format:
+
+`python generate_igdetective_config.py "" IGH cats_configuration`
+
+Then, PatchWorkPlot takes the compiled configuration file and visualizes pairwise alignments of IGH loci. The `--show-genes` option is used to illustrate positions of IGH genes predicted by IgDetective: 
+
+`python PatchWorkPlot.py -o cat_config_preparation/patchworkplot_config.csv -o cats_patchworkplot --show-genes`
 
 ## Gallery
 
