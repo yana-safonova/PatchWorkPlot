@@ -1,5 +1,5 @@
 # PatchWorkPlot
-A tool for visualization of pairwise alignments of multiple sequences as an upper or lower triangular matrix.
+A tool for visualization of pairwise alignments of multiple sequences as [dot plots](https://en.wikipedia.org/wiki/Dot_plot_(bioinformatics)) arranged into an upper or lower triangular matrix.
 
 ## Dependencies
 - [Pandas](https://anaconda.org/anaconda/pandas)
