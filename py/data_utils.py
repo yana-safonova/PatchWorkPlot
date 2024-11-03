@@ -89,7 +89,7 @@ class YassPairwiseAligner:
         df['strand2'] = strand_list
         df['length1'] = [abs(df['start1'][i] - df['end1'][i]) for i in range(len(df))]
         df['length2'] = [abs(df['start2'][i] - df['end2'][i]) for i in range(len(df))]
-        print('parsing ' + output_fname + '...')
+        print('Parsing ' + output_fname + '...')
         return df
 
 class AlignedData:
@@ -109,7 +109,7 @@ class AlignedData:
     def _PerformPairwiseAlignments(self):
         self.align_dict = dict()
         for i in range(self.input_data.NumSamples()):
-            print('aligning ' + self.input_data.GetSampleNameByIdx(i) + '...')
+            print('Aligning ' + self.input_data.GetSampleNameByIdx(i) + '...')
 
             #self dot plot
             sample_name1 = self.input_data.GetSampleNameByIdx(i)
