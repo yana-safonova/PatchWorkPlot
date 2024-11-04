@@ -9,9 +9,9 @@ A tool for visualization of pairwise alignments of multiple sequences as [dot pl
 ## Input Parameters
 ### Required parameters
 `-i INPUT_CONFIG.CSV`: a configuration file containing information about input sequences in the CSV format. The configuration file contains the following colummns:
-- `SampleID`: a unique identifier of each sequence (mandatory).
-- `Fasta`: a complete path to each sequence in FASTA format (mandatory).
-- `Label`: labels will be used in the output plot and, unlike SampleIDs, do not have to be unique to a sequence (mandatory).
+- `SampleID`: a unique identifier of each sequence (required).
+- `Fasta`: a complete path to each sequence in FASTA format (required).
+- `Label`: labels will be used in the output plot and, unlike SampleIDs, do not have to be unique to a sequence and can be empty (required).
 - `Annotation`: a complete path to annotation in BED format (optional).
   
 An example of the configuration file can be found here.
