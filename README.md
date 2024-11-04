@@ -78,11 +78,11 @@ where:
 
 #### Example of joint usage of IgDetective & PatchWorkPlot 
 The directory [`test_dataset`](test_dataset) includes five IgDetective directories containing results of IG/TR locus annotation for five cat genomes: 
-- `test_dataset/01mNeoNeb1_igdetective`: the clouded leopard (), accession: 
-- `test_dataset/02mPumCon1.1_hap1_igdetective`: the mountain lion (), haplotype 1, accession: 
-- `test_dataset/03mPumCon1.1_hap2_igdetective`: the mountain lion (), haplotype 2, accession: 
-- `test_dataset/04mLynRuf1_igdetective`: the bobcat (), accession: .
-- `test_dataset/05mFelCat1_igdetective`: the domestic cat (), accession: .
+- `test_dataset/01mPumCon1.1_hap1_igdetective`: the mountain lion (_Puma concolor_), haplotype 1, accession: 
+- `test_dataset/02mPumCon1.1_hap2_igdetective`: the mountain lion (_Puma concolor_), haplotype 2, accession: 
+- `test_dataset/03mNeoNeb1_igdetective`: the clouded leopard (_Neofelis nebulosa_), accession: 
+- `test_dataset/04mLynRuf1_igdetective`: the bobcat (_Lynx rufus_), accession: .
+- `test_dataset/05mFelCat1_igdetective`: the domestic cat (_Felis catus_), accession: .
 
 The following command lines generates a configuration file for immunoglobulin heavy chain (IGH) loci and converts IGH gene files to BED format:
 
@@ -93,9 +93,9 @@ Then, PatchWorkPlot takes the compiled configuration file and visualizes pairwis
 `python PatchWorkPlot.py -o cats_configuration/config.csv -o cats_patchworkplot --show-annot`
 
 ## Gallery
-| upper triangle | lower triangle |
-| ------| ------|
-| img1 | img3 |
-| img2 <br>Command line: `--show-annot` | img4 <br>Command line: `--show-annot` |
+| Annotation | Upper triangle | Lower triangle |
+| ----| ------| ------|
+| W\o annotation | <img src="examples/upper_no_annot.png" alt="upper_no_annotation" width="500"/><br>Parameters: `default`| <img src="examples/lower_no_annot.png" alt="lower_no_annotation" width="500"/><br>Parameters:`--lwidth 2 --min-len 20000 --lower --min-pi 90 --max-pi 95` |
+| With annotation | <img src="examples/upper_annot.png" alt="upper_annotation" width="500"/><br>Parameters: `--show-annot --lwidth 2 --min-len 10000 --cmap Greens --reverse-cmap false --min-pi 80` | <img src="examples/lower_annot.png" alt="lower_annotation" width="500"/> <br>Parameters: `--show-annot --lower --lwidth 2 --min-len 10000 --cmap viridis --min-pi 75` |
 
 ## Citation
