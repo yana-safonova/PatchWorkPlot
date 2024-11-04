@@ -53,7 +53,7 @@ class Config:
             elif opt == '--cmap':
                 self.cmap = arg
             elif opt == '--reverse-cmap':
-                self.cmap_reverse = bool(arg)
+                self.cmap_reverse = arg.lower() == 'true'
             elif opt == '--lower':
                 self.upper_triangle = False
             elif opt == '--lwidth':
