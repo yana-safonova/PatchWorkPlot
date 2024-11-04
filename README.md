@@ -67,7 +67,7 @@ will use alignments in the `patchwork_output` direcitory and modify the patchwor
 - reporting an upper triangular matrix. 
 
 ### Visualization of IgDetective results
-PatchWorkPlot is useful to visualize highly repetitive sequences or sequences with a high density of structural variations such as immunoglobulin and T-cell receptor loci. A script `generate_igdetective_config.py` simplifies analysis of adaptive immune loci annotated using the IgDetective tool and generates a config file that can be used as an input to PatchWorkPlot. To run the script, use the following command line:
+PatchWorkPlot is useful to visualize highly repetitive sequences or sequences with a high density of structural variations such as immunoglobulin (IG) and T-cell receptor (TCR) loci. A script `generate_igdetective_config.py` simplifies analysis of adaptive immune loci annotated using the IgDetective tool and generates a config file that can be used as an input to PatchWorkPlot. To run the script, use the following command line:
 
 `python generate_igdetective_config.py PATHS_TO_IGDETECTIVE_DIRS LOCUS OUTPUT_DIR`
 
@@ -84,11 +84,11 @@ The directory [`test_dataset`](test_dataset) includes five IgDetective directori
 - `test_dataset/mLynRuf1_igdetective`: the bobcat
 - `test_dataset/mFelCat1_igdetective`: the domestic cat
 
-The following command lines generates a configuration file and converts gene files to BED format:
+The following command lines generates a configuration file for immunoglobulin heavy chain (IGH) loci and converts IGH gene files to BED format:
 
 `python generate_igdetective_config.py "test_dataset/mPumCon1.1_hap1_igdetective test_dataset/mPumCon1.1_hap2_igdetective test_dataset/mNeoNeb1_igdetective test_dataset/mLynRuf1_igdetective test_dataset/mFelCat1_igdetective" IGH cats_configuration`
 
-Then, PatchWorkPlot takes the compiled configuration file and visualizes pairwise alignments of IGH loci. The `--show-annot` option is used to illustrate positions of IGH genes predicted by IgDetective: 
+Then, PatchWorkPlot takes the compiled configuration file and visualizes pairwise alignments of the IGH loci. The `--show-annot` option is used to illustrate positions of IGH genes predicted by IgDetective: 
 
 `python PatchWorkPlot.py -o cats_configuration/config.csv -o cats_patchworkplot --show-annot`
 
