@@ -36,11 +36,23 @@ class InputData:
         return len(self.species_names)
 
     def GetGeneTableByIdx(self, idx):
-        return pd.read_csv(self.data_df['Annotation'][idx], sep = '\t')
+        lines = open(self.data_df['Annotation'][idx]).readlines()
+        df = {'Start' : [], 'End' : [], 'Color' : []}
+        for l in lines:
+            splits = l.strip().split()
+            if splits[0] in ['browser', 'track']:
+                continue
+            start_pos = int(splits[1])
+            end_pos = int(splits[2])
+            color = 'black'
+            if len(splits) >= 9:
+                color_splits = splits[8].split(',')
+                color = utils.rgb2hex(int(color_splits[0]), int(color_splits[1]), int(color_splits[2]))
+            df['Start'].append(start_pos)
+            df['End'].append(end_pos)
+            df['Color'].append(color)
+        return pd.DataFrame(df)
 
-    #### refactor!
-    def GetStartPosByIdx(self, idx):
-        return self.data_df['StartPos'][idx]
 
 class LastZPairwiseAligner:
     def __init__(self, config):
@@ -146,6 +158,7 @@ class AlignedData:
             max_len = max(df['length1'])
             df_max = df.loc[df['length1'] == max_len].reset_index()
             self.strands.append(df_max['strand2'][0])
+        print(self.strands)
 
     def _RedirectAlignments(self):
         for idx1, idx2 in self.align_dfs:
@@ -183,10 +196,6 @@ class AlignedData:
 
     def GetGeneTableByIdx(self, idx):
         return self.input_data.GetGeneTableByIdx(idx)
-
-    #### refactor!
-    def GetStartPosByIdx(self, idx):
-        return self.input_data.GetStartPosByIdx(idx)
 
     def GetAlignmentDF(self, idx1, idx2):
         return self.align_dfs[idx1, idx2]

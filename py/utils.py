@@ -14,13 +14,21 @@ def GetColorByNormalizedValue(cmap_name, norm_value):
     color = cmap(norm_value)
     return mplt.colors.rgb2hex(color[:3])
 
-def ColorByPercentIdentity(pi, config):
-    min_pi = config.pi_min
-    max_pi = config.pi_max
+def ColorByPercentIdentity(cmap, pi, min_pi, max_pi, cmap_reverse):
     fraction = (min(max(pi, min_pi), max_pi) - min_pi) / (max_pi - min_pi)
-    if config.cmap_reverse:
+    if cmap_reverse:
         fraction = 1 - fraction
-    return GetColorByNormalizedValue(config.cmap, fraction)
+    return GetColorByNormalizedValue(cmap, fraction)
+
+def rgb2hex(r,g,b):
+    return "#{:02x}{:02x}{:02x}".format(r,g,b)
+
+def hex2rgb(hexcode):
+    hex_string = hexcode.lstrip('#')
+    r = int(hex_string[0:2], 16)
+    g = int(hex_string[2:4], 16)
+    b = int(hex_string[4:6], 16)
+    return (r, g, b)
 
 def ModifyPos(pos, seq_len, strand):
     if strand == '+':

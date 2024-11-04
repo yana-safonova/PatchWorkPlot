@@ -19,7 +19,7 @@ class VisualizerBuilder:
         self.aligned_data = aligned_data
 
     def _GetGeneVisualizer(self):
-        if self.config.show_genes:
+        if self.config.show_annotation:
             return vis_utils.SimpleGeneVisualizer(self.config, self.aligned_data)
         return vis_utils.EmptyGeneVisualizer(self.config, self.aligned_data)
 

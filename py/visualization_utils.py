@@ -39,19 +39,17 @@ class SimpleGeneVisualizer:
         for idx in range(self.aligned_data.NumSamples()):
             plt.sca(axes[idx][gene_col_idx])
             axes[idx][gene_col_idx].axis('on')
-            start_pos = self.aligned_data.GetStartPosByIdx(idx)
             gene_df = self.aligned_data.GetGeneTableByIdx(idx)
-            gene_df['LocusPos'] = [gene_df['Pos'][i] - start_pos for i in range(len(gene_df))]
             locus_len = self.aligned_data.GetLengthByIdx(idx)
             strand = self.aligned_data.GetStrandByIdx(idx)
             for i in range(len(gene_df)):
-                gene_pos = utils.ModifyPos(gene_df['LocusPos'][i], locus_len, strand)
-                scale_pos = self.config.plot_scale - gene_pos / locus_len * self.config.plot_scale
-                plt.plot([0, 1], [scale_pos, scale_pos], linestyle = '-', marker = 'None', color = 'black')
+                pos_list = utils.ModifyPos(gene_df['Start'][i], locus_len, strand), utils.ModifyPos(gene_df['End'][i], locus_len, strand)
+                scaled_pos_list = [(self.config.plot_scale - gene_pos / locus_len * self.config.plot_scale) for gene_pos in pos_list]
+                plt.plot([0, 1], [scaled_pos_list[0], scaled_pos_list[1]], linestyle = '-', marker = 'None', color = gene_df['Color'][i])
             plt.xlim(0, 1)
             plt.ylim(0, self.config.plot_scale)
             plt.xticks([], [])
-            plt.yticks([], [])
+            plt.yticks([], [])            
 
 
 class UpperTriangleUtils:
@@ -155,7 +153,7 @@ def VisualizePlot(plot_utils, aligned_data, config):
             scaled_pos1 = [pos / len1 * config.plot_scale for pos in pos1]
             scaled_pos2 = [pos / len2 * config.plot_scale for pos in pos2]
             pi = df['id%'][i]
-            pi_color = utils.ColorByPercentIdentity(pi, config)
+            pi_color = utils.ColorByPercentIdentity(config.cmap, pi, config.pi_min, config.pi_max, config.cmap_reverse)
             x, y = plot_utils.GetLineCoordinates(scaled_pos1[0], scaled_pos1[1], scaled_pos2[0], scaled_pos2[1], config.plot_scale)
             plt.plot(x, y, color = pi_color, linewidth=config.linewidth, linestyle = '-', marker = 'None')
         plt.xlim(0, config.plot_scale)
