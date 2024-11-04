@@ -77,16 +77,16 @@ where:
 - `OUTPUT_DIR`: the name of output directory. If the directory does not exist, it will be created.
 
 #### Example of joint usage of IgDetective & PatchWorkPlot 
-The directory `test_dataset` includes five IgDetective directories containing results of IGH locus annotation for five cat genomes: 
-- `test_dataset/`: the mountain lion, haplotype 1
-- `test_dataset/`: the mountain lion, haplotype 2
-- `test_dataset/`: the clouded leopard
-- `test_dataset/`: the bobcat
-- `test_dataset/`: the domestic cat
+The directory [`test_dataset`](test_dataset) includes five IgDetective directories containing results of IGH locus annotation for five cat genomes: 
+- `test_dataset/mPumCon1.1_hap1_igdetective`: the mountain lion, haplotype 1
+- `test_dataset/mPumCon1.1_hap2_igdetective`: the mountain lion, haplotype 2
+- `test_dataset/mNeoNeb1_igdetective`: the clouded leopard
+- `test_dataset/mLynRuf1_igdetective`: the bobcat
+- `test_dataset/mFelCat1_igdetective`: the domestic cat
 
 The following command lines generates a configuration file and converts gene files to BED format:
 
-`python generate_igdetective_config.py "" IGH cats_configuration`
+`python generate_igdetective_config.py "test_dataset/mPumCon1.1_hap1_igdetective test_dataset/mPumCon1.1_hap2_igdetective test_dataset/mNeoNeb1_igdetective test_dataset/mLynRuf1_igdetective test_dataset/mFelCat1_igdetective" IGH cats_configuration`
 
 Then, PatchWorkPlot takes the compiled configuration file and visualizes pairwise alignments of IGH loci. The `--show-annot` option is used to illustrate positions of IGH genes predicted by IgDetective: 
 
