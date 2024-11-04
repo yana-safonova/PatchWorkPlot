@@ -86,16 +86,16 @@ The directory [`test_dataset`](test_dataset) includes five IgDetective directori
 
 The following command lines generates a configuration file for immunoglobulin heavy chain (IGH) loci and converts IGH gene files to BED format:
 
-`python generate_igdetective_config.py "test_dataset/mPumCon1.1_hap1_igdetective test_dataset/mPumCon1.1_hap2_igdetective test_dataset/mNeoNeb1_igdetective test_dataset/mLynRuf1_igdetective test_dataset/mFelCat1_igdetective" IGH cats_configuration`
+`python generate_igdetective_config.py "test_dataset/01mPumCon1.1_hap1_igdetective test_dataset/02mPumCon1.1_hap2_igdetective test_dataset/03mNeoNeb1_igdetective test_dataset/04mLynRuf1_igdetective test_dataset/05mFelCat1_igdetective" IGH cats_IGH_configuration`
 
 Then, PatchWorkPlot takes the compiled configuration file and visualizes pairwise alignments of the IGH loci. The `--show-annot` option is used to illustrate positions of IGH genes predicted by IgDetective: 
 
-`python PatchWorkPlot.py -o cats_configuration/config.csv -o cats_patchworkplot --show-annot`
+`python PatchWorkPlot.py -o cats_IGH_configuration/config.csv -o cats_IGH_patchworkplot --show-annot`
 
 ## Gallery
 | Annotation | Upper triangle | Lower triangle |
 | ----| ------| ------|
-| W\o annotation | <img src="examples/upper_no_annot.png" alt="upper_no_annotation" width="500"/><br>Parameters: `default`| <img src="examples/lower_no_annot.png" alt="lower_no_annotation" width="500"/><br>Parameters:`--lwidth 2 --min-len 20000 --lower --min-pi 90 --max-pi 95` |
-| With annotation | <img src="examples/upper_annot.png" alt="upper_annotation" width="500"/><br>Parameters: `--show-annot --lwidth 2 --min-len 10000 --cmap Greens --reverse-cmap false --min-pi 80` | <img src="examples/lower_annot.png" alt="lower_annotation" width="500"/> <br>Parameters: `--show-annot --lower --lwidth 2 --min-len 10000 --cmap viridis --min-pi 75` |
+| W\o annotation | <img src="examples/upper_no_annot.png" alt="upper_no_annotation" width="400"/><br>Parameters: `default`| <img src="examples/lower_no_annot.png" alt="lower_no_annotation" width="400"/><br>Parameters:`--lwidth 2 --min-len 20000 --lower --min-pi 90 --max-pi 95` |
+| With annotation | <img src="examples/upper_annot.png" alt="upper_annotation" width="400"/><br>Parameters: `--show-annot --lwidth 2 --min-len 10000 --cmap Greens --reverse-cmap false --min-pi 80` | <img src="examples/lower_annot.png" alt="lower_annotation" width="400"/> <br>Parameters: `--show-annot --lower --lwidth 2 --min-len 10000 --cmap viridis --min-pi 75` |
 
 ## Citation
