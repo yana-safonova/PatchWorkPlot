@@ -12,7 +12,7 @@ A tool for visualization of pairwise alignments of multiple sequences as [dot pl
 - `SampleID`: a unique identifier of each sequence (required).
 - `Fasta`: a complete path to each sequence in FASTA format (required).
 - `Label`: labels will be used in the output plot and, unlike SampleIDs, do not have to be unique to a sequence and can be empty (required).
-- `Annotation`: a complete path to annotation in BED format (optional).
+- `Annotation`: a complete path to annotation in [BED format](https://genome.ucsc.edu/FAQ/FAQformat.html#format1) (optional).
   
 An example of the configuration file can be found here.
 
@@ -46,7 +46,7 @@ For the list of available coloring maps, please refer to the [Matplotlib documen
 
 `--help`: print help.
 
-### Default parameters
+### Default values of parameters
 Default values of input parameters are stored in `default_params.txt`. It covers the parameters described above as well as the parameters of LASTZ alignments. The file can be modified to change the default values and avoid passing the arguments through the arguments of the command line.   
 
 ## Usage
@@ -78,11 +78,11 @@ where:
 
 #### Example of joint usage of IgDetective & PatchWorkPlot 
 The directory [`test_dataset`](test_dataset) includes five IgDetective directories containing results of IG/TR locus annotation for five cat genomes: 
+- `test_dataset/mFelCat1_igdetective`: the domestic cat
+- `test_dataset/mLynRuf1_igdetective`: the bobcat
+- `test_dataset/mNeoNeb1_igdetective`: the clouded leopard
 - `test_dataset/mPumCon1.1_hap1_igdetective`: the mountain lion, haplotype 1
 - `test_dataset/mPumCon1.1_hap2_igdetective`: the mountain lion, haplotype 2
-- `test_dataset/mNeoNeb1_igdetective`: the clouded leopard
-- `test_dataset/mLynRuf1_igdetective`: the bobcat
-- `test_dataset/mFelCat1_igdetective`: the domestic cat
 
 The following command lines generates a configuration file for immunoglobulin heavy chain (IGH) loci and converts IGH gene files to BED format:
 
