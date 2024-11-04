@@ -1,6 +1,6 @@
 SampleID,Label,Fasta,Annotation
-01mNeoNeb1,clouded leopard,test_dataset/01mNeoNeb1_igdetective/refined_ig_loci/igloci_fasta/IGH_SUPER_7_87Vs.fasta,cats_config/01mNeoNeb1.bed
 02mPumCon1.1_hap1,mountain lion (hap1),test_dataset/02mPumCon1.1_hap1_igdetective/refined_ig_loci/igloci_fasta/IGH_CM060209.1_61Vs.fasta,cats_config/02mPumCon1.1_hap1.bed
 03mPumCon1.1_hap2,mountain lion (hap2),test_dataset/03mPumCon1.1_hap2_igdetective/refined_ig_loci/igloci_fasta/IGH_CM060229.1_44Vs.fasta,cats_config/03mPumCon1.1_hap2.bed
+01mNeoNeb1,clouded leopard,test_dataset/01mNeoNeb1_igdetective/refined_ig_loci/igloci_fasta/IGH_SUPER_7_87Vs.fasta,cats_config/01mNeoNeb1.bed
 04mLynRuf1,bobcat,test_dataset/04mLynRuf1_igdetective/refined_ig_loci/igloci_fasta/IGH_NW_025814831.1_45Vs.fasta,cats_config/04mLynRuf1.bed
 05mFelCat1,domestic cat,test_dataset/05mFelCat1_igdetective/refined_ig_loci/igloci_fasta/IGH_AP023157.1_71Vs.fasta,cats_config/05mFelCat1.bed

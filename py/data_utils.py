@@ -1,6 +1,7 @@
 import os
 import sys
 import pandas as pd
+from collections import Counter
 from Bio import SeqIO
 
 sys.path.append('py')
@@ -154,10 +155,11 @@ class AlignedData:
     def _RedefineStrands(self):
         self.strands = ['+']
         for i in range(1, self.input_data.NumSamples()):
-            df = self.align_dfs[0, i] 
-            max_len = max(df['length1'])
-            df_max = df.loc[df['length1'] == max_len].reset_index()
-            self.strands.append(df_max['strand2'][0])
+            df = self.align_dfs[0, i]
+            sorted_df = df.sort_values(by = 'length1')
+            strand_counter = Counter(sorted_df[:15]['strand2'])
+            best_strand = [s for s in sorted(strand_counter, key = lambda x : strand_counter[x], reverse = True)][0]
+            self.strands.append(best_strand)
         print(self.strands)
 
     def _RedirectAlignments(self):

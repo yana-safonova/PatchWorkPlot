@@ -1,0 +1,1 @@
+GeneType	Contig	Pos	Strand	Sequence	Productive	Locus
