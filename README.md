@@ -77,7 +77,7 @@ where:
 - `OUTPUT_DIR`: the name of output directory. If the directory does not exist, it will be created.
 
 #### Example of joint usage of IgDetective & PatchWorkPlot 
-The directory [`test_dataset`](test_dataset) includes five IgDetective directories containing results of IGH locus annotation for five cat genomes: 
+The directory [`test_dataset`](test_dataset) includes five IgDetective directories containing results of IG/TR locus annotation for five cat genomes: 
 - `test_dataset/mPumCon1.1_hap1_igdetective`: the mountain lion, haplotype 1
 - `test_dataset/mPumCon1.1_hap2_igdetective`: the mountain lion, haplotype 2
 - `test_dataset/mNeoNeb1_igdetective`: the clouded leopard
