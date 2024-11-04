@@ -36,7 +36,7 @@ class InputData:
         return len(self.species_names)
 
     def GetGeneTableByIdx(self, idx):
-        return pd.read_csv(self.data_df['GeneTxt'][idx], sep = '\t')
+        return pd.read_csv(self.data_df['Annotation'][idx], sep = '\t')
 
     #### refactor!
     def GetStartPosByIdx(self, idx):

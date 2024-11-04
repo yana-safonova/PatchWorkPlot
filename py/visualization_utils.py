@@ -164,7 +164,13 @@ def VisualizePlot(plot_utils, aligned_data, config):
         plt.yticks([], [])
 
     #### adding labels and gene positions
-    plot_utils.SetLabels(axes, [aligned_data.GetLabelByIdx(idx) for idx in range(aligned_data.NumSamples())])
+    labels = []
+    for idx in range(aligned_data.NumSamples()):
+        label = ''
+        if not pd.isnull(aligned_data.GetLabelByIdx(idx)):
+            label = aligned_data.GetLabelByIdx(idx)
+        labels.append(label)
+    plot_utils.SetLabels(axes, labels)
     plot_utils.VisualizeGenes(axes)
 
     #### output plot as .PNG, .PDF

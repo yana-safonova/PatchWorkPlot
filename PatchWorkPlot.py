@@ -39,7 +39,7 @@ def main(command_args):
     vis_utils.VisualizePlot(plot_visualizer, aligned_data, config)
     print('Visualization stage is complete')
 
-    print('\nThank you for using PatchworkPlot!')
+    print('\nThank you for using PatchWorkPlot!')
     PrintPatchWorkLogo()
 
 if __name__ == '__main__':
