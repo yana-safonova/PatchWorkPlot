@@ -95,9 +95,9 @@ Then, PatchWorkPlot takes the compiled configuration file and visualizes pairwis
 ## Gallery
 | Annotation | Upper triangle | Lower triangle |
 | ----| ------| ------|
-| No annotation | <img src="examples/upper_no_annot.png" alt="upper_no_annotation" width="400"/> | <img src="examples/lower_no_annot.png" alt="lower_no_annotation" width="400"/>|
+| No annotation | <img src="examples/upper_no_annot.png" alt="upper_no_annotation" width="350"/> | <img src="examples/lower_no_annot.png" alt="lower_no_annotation" width="350"/>|
 | Parameters | `default` | `--lwidth 3 --min-len 20000 --lower --min-pi 80 --max-pi 95`|
-| With annotation | <img src="examples/upper_annot.png" alt="upper_annotation" width="400"/> | <img src="examples/lower_annot.png" alt="lower_annotation" width="400"/> |
+| With annotation | <img src="examples/upper_annot.png" alt="upper_annotation" width="350"/> | <img src="examples/lower_annot.png" alt="lower_annotation" width="350"/> |
 | Parameters | `--show-annot --lwidth 2 --min-len 10000 --cmap Greens --reverse-cmap false --min-pi 80` | `--show-annot --lower --lwidth 2 --min-len 10000 --cmap viridis --min-pi 75` |
 
 ## Citation
