@@ -163,6 +163,9 @@ class AlignedData:
                 continue
             df = self.align_dfs[0, i]
             sorted_df = df.sort_values(by = 'length1', ascending = False)
+            if len(sorted_df) == 0:
+                self.strands.append('+')
+                continue
             strand_counter = Counter(sorted_df[:15]['strand2'])
             best_strand = [s for s in sorted(strand_counter, key = lambda x : strand_counter[x], reverse = True)][0]
             self.strands.append(best_strand)

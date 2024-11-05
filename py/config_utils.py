@@ -57,7 +57,7 @@ class Config:
             elif opt == '--lower':
                 self.upper_triangle = False
             elif opt == '--lwidth':
-                self.linewidth = int(arg)
+                self.linewidth = float(arg)
             elif opt == '--show-annot':
                 self.show_annotation = True
             elif opt == '--transparent':

@@ -2,6 +2,7 @@ import os
 import sys
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 
 import utils
 
@@ -45,7 +46,10 @@ class SimpleGeneVisualizer:
             for i in range(len(gene_df)):
                 pos_list = utils.ModifyPos(gene_df['Start'][i], locus_len, strand), utils.ModifyPos(gene_df['End'][i], locus_len, strand)
                 scaled_pos_list = [(self.config.plot_scale - gene_pos / locus_len * self.config.plot_scale) for gene_pos in pos_list]
-                plt.plot([0, 1], [scaled_pos_list[0], scaled_pos_list[1]], linestyle = '-', marker = 'None', color = gene_df['Color'][i])
+                width = max(2, abs(scaled_pos_list[0] - scaled_pos_list[1]))
+                rect = patches.Rectangle((0, min(scaled_pos_list)), 1, width, linewidth=0, edgecolor='r', facecolor=gene_df['Color'][i])
+                plt.gca().add_patch(rect)
+                #plt.plot([0, 1], [scaled_pos_list[0], scaled_pos_list[1]], linestyle = '-', marker = 'None', color = gene_df['Color'][i])
             plt.xlim(0, 1)
             plt.ylim(0, self.config.plot_scale)
             plt.xticks([], [])
