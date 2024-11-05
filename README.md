@@ -8,11 +8,12 @@ A tool for visualization of pairwise alignments of multiple sequences as [dot pl
 
 ## Input Parameters
 ### Required parameters
-`-i INPUT_CONFIG.CSV`: a configuration file containing information about input sequences in the CSV format. The configuration file contains the following colummns:
+`-i INPUT_CONFIG.CSV`: a configuration file containing information about input sequences in the CSV format. The configuration file contains the following columns:
 - `SampleID`: a unique identifier of each sequence (required).
 - `Fasta`: a complete path to each sequence in FASTA format (required).
 - `Label`: labels will be used in the output plot and, unlike SampleIDs, do not have to be unique to a sequence and can be empty (required).
 - `Annotation`: a complete path to annotation in [BED format](https://genome.ucsc.edu/FAQ/FAQformat.html#format1) (optional).
+- `Strand`: an orientation of the sequence with respect to the first one. Values can be `+` and `-` (optional).
   
 An example of the configuration file can be found here.
 
@@ -24,7 +25,7 @@ An example of the configuration file can be found here.
 `--cmap NAME`: the name of coloring map used for visualization of alignments. The minimum and maximum values of percent identity thresholds (`min-pi` and `max-pi`) will be used to determine the color of the alignment: 
 - Alignments with percent identity below `min-pi` will be shown using the leftmost color in the coloring cmap.
 - Alignments with percent identity above `max-pi` will be shown using the rightmost color in the coloring map.
-- Alignments with percent identity between `min-pi` and `max-pi` will be projected onto the coloring map and colored accorndgly.
+- Alignments with percent identity between `min-pi` and `max-pi` will be projected onto the coloring map and colored accordingly.
   
 For the list of available coloring maps, please refer to the [Matplotlib documentation](https://matplotlib.org/stable/users/explain/colors/colormaps.html). Default: `Spectral`.
 
