@@ -11,7 +11,7 @@ output_dir = sys.argv[3]
 
 utils.PrepareDir(output_dir)
 
-df = {'SampleID' : [], 'Label' : [], 'Fasta' : [], 'Annotation' : []}
+df = {'SampleID' : [], 'Label' : [], 'Fasta' : [], 'Annotation' : [], 'Strand' : []}
 for igdetect_dir in igdetect_dirs:
     locus_dir = os.path.join(igdetect_dir, 'refined_ig_loci')
     summary_csv = os.path.join(locus_dir, 'summary.csv')
@@ -48,6 +48,7 @@ for igdetect_dir in igdetect_dirs:
     df['SampleID'].append(label)
     df['Fasta'].append(fasta_fname)
     df['Annotation'].append(annot_bed)
+    df['Strand'].append('')
 
 df = pd.DataFrame(df)
 output_csv = os.path.join(output_dir, 'config.csv')

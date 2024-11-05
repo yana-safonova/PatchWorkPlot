@@ -29,6 +29,9 @@ class InputData:
 
     def GetLabelByIdx(self, idx):
         return self.data_df['Label'][idx]
+
+    def GetDefaultStrandByIdx(self, idx):
+        return self.data_df['Strand'][idx]
     
     def GetFastaByIdx(self, idx):
         return self.data_df['Fasta'][idx]
@@ -155,12 +158,16 @@ class AlignedData:
     def _RedefineStrands(self):
         self.strands = ['+']
         for i in range(1, self.input_data.NumSamples()):
+            if not pd.isnull(self.input_data.GetDefaultStrandByIdx(i)):
+                self.strands.append(self.input_data.GetDefaultStrandByIdx(i))
+                continue
             df = self.align_dfs[0, i]
-            sorted_df = df.sort_values(by = 'length1')
+            sorted_df = df.sort_values(by = 'length1', ascending = False)
+            print(sorted_df[:15])
             strand_counter = Counter(sorted_df[:15]['strand2'])
             best_strand = [s for s in sorted(strand_counter, key = lambda x : strand_counter[x], reverse = True)][0]
             self.strands.append(best_strand)
-        print(self.strands)
+        print('Strands:', self.strands)
 
     def _RedirectAlignments(self):
         for idx1, idx2 in self.align_dfs:
