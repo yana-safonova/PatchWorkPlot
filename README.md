@@ -78,15 +78,15 @@ where:
 
 #### Example of joint usage of IgDetective & PatchWorkPlot 
 The directory [`test_dataset`](test_dataset) includes five IgDetective directories containing results of IG/TR locus annotation for five cat genomes: 
-- `test_dataset/01mPumCon1.1_hap1_igdetective`: the mountain lion (_Puma concolor_), haplotype 1, accession: 
-- `test_dataset/02mPumCon1.1_hap2_igdetective`: the mountain lion (_Puma concolor_), haplotype 2, accession: 
-- `test_dataset/03mNeoNeb1_igdetective`: the clouded leopard (_Neofelis nebulosa_), accession: 
-- `test_dataset/04mLynRuf1_igdetective`: the bobcat (_Lynx rufus_), accession: .
-- `test_dataset/05mFelCat1_igdetective`: the domestic cat (_Felis catus_), accession: .
+- `test_dataset/01_mPumCon1.1_hap1_igdetective`: the mountain lion (_Puma concolor_), haplotype 1, accession: GCA_028749985.3.
+- `test_dataset/02_mPumCon1.1_hap2_igdetective`: the mountain lion (_Puma concolor_), haplotype 2, accession: GCA_028749965.3.
+- `test_dataset/03_mNeoNeb1_igdetective`: the clouded leopard (_Neofelis nebulosa_), accession: GCA_028018385.1.
+- `test_dataset/04_mLynRuf1_igdetective`: the bobcat (_Lynx rufus_), accession: GCF_022079265.1.
+- `test_dataset/05_mFelCat1_igdetective`: the domestic cat (_Felis catus_), accession: .
 
 The following command lines generates a configuration file for immunoglobulin heavy chain (IGH) loci and converts IGH gene files to BED format:
 
-`python generate_igdetective_config.py "test_dataset/01mPumCon1.1_hap1_igdetective test_dataset/02mPumCon1.1_hap2_igdetective test_dataset/03mNeoNeb1_igdetective test_dataset/04mLynRuf1_igdetective test_dataset/05mFelCat1_igdetective" IGH cats_IGH_configuration`
+`python generate_igdetective_config.py "test_dataset/01_mPumCon1.1_hap1_igdetective test_dataset/02_mPumCon1.1_hap2_igdetective test_dataset/03_mNeoNeb1_igdetective test_dataset/04_mLynRuf1_igdetective test_dataset/05_mFelCat1_igdetective" IGH cats_IGH_configuration`
 
 Then, PatchWorkPlot takes the compiled configuration file and visualizes pairwise alignments of the IGH loci. The `--show-annot` option is used to illustrate positions of IGH genes predicted by IgDetective: 
 
@@ -98,7 +98,7 @@ Then, PatchWorkPlot takes the compiled configuration file and visualizes pairwis
 | No annotation | <img src="examples/upper_no_annot.png" alt="upper_no_annotation" width="300"/> | <img src="examples/lower_no_annot.png" alt="lower_no_annotation" width="300"/>|
 | Parameters | `default` | `--lwidth 3 --min-len 20000 --lower --min-pi 80 --max-pi 95`|
 | With annotation | <img src="examples/upper_annot.png" alt="upper_annotation" width="300"/> | <img src="examples/lower_annot.png" alt="lower_annotation" width="300"/> |
-| Parameters | `--show-annot --lwidth 2 --min-len 10000 --cmap Greens --reverse-cmap false --min-pi 80` | `--show-annot --lower --lwidth 2 --min-len 10000 --cmap viridis --min-pi 75` |
+| Parameters | `--show-annot --lwidth 2 --min-len 10000 --cmap Greens --reverse-cmap false --min-pi 80` | `--show-annot --lower --lwidth 2 --min-len 15000 --cmap viridis --min-pi 75` |
 
 ## Citation
 To be added
