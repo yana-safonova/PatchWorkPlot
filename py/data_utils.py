@@ -31,8 +31,10 @@ class InputData:
         return self.data_df['Label'][idx]
 
     def GetDefaultStrandByIdx(self, idx):
-        return self.data_df['Strand'][idx]
-    
+        if 'Strand' in self.data_df.columns:
+            return self.data_df['Strand'][idx]
+        return float('nan')    
+
     def GetFastaByIdx(self, idx):
         return self.data_df['Fasta'][idx]
 

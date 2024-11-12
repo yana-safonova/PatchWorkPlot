@@ -37,6 +37,7 @@ def main(command_args):
     visualizer_builder = tool_builder.VisualizerBuilder(config, aligned_data)
     plot_visualizer = visualizer_builder.GetPlotVisualizer()
     vis_utils.VisualizePlot(plot_visualizer, aligned_data, config)
+    vis_utils.PlotSelfAlignments(plot_visualizer, aligned_data, config)
     print('Visualization stage is complete')
 
     print('\nThank you for using PatchWorkPlot!')

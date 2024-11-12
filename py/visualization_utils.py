@@ -132,6 +132,27 @@ def GetRatios(aligned_data):
     ratios = [round(l / min_len, 2) for l in locus_lens]
     return ratios
 
+def PlotSelfAlignments(plot_utils, aligned_data, config):
+    for idx in range(aligned_data.NumSamples()):
+        df = aligned_data.GetAlignmentDF(idx, idx)
+        locus_len = aligned_data.GetLengthByIdx(idx)
+        plt.figure(figsize = (6, 6))
+        for i in range(len(df)):
+            pos1 = [df['start1_dir'][i], df['end1_dir'][i]]
+            pos2 = [df['start2_dir'][i], df['end2_dir'][i]]
+            scaled_pos1 = [pos / locus_len * config.plot_scale for pos in pos1]
+            scaled_pos2 = [pos / locus_len * config.plot_scale for pos in pos2]
+            pi = df['id%'][i]
+            pi_color = 'black' #utils.ColorByPercentIdentity(config.cmap, pi, config.pi_min, config.pi_max, config.cmap_reverse)
+            x, y = plot_utils.GetLineCoordinates(scaled_pos1[0], scaled_pos1[1], scaled_pos2[0], scaled_pos2[1], config.plot_scale)
+            plt.plot(x, y, color = pi_color, linewidth=config.linewidth, linestyle = '-', marker = 'None')
+        plt.xlim(0, config.plot_scale)
+        plt.ylim(0, config.plot_scale)
+        plt.xticks([], [])
+        plt.yticks([], [])
+        plt.savefig(os.path.join(config.output_dir, 'selfdotplot_' + aligned_data.GetSampleNameByIdx(idx) + '.png'), dpi = 300)
+        plt.clf()
+
 def VisualizePlot(plot_utils, aligned_data, config):
     #### get ratios
     ratios = GetRatios(aligned_data)
@@ -180,4 +201,3 @@ def VisualizePlot(plot_utils, aligned_data, config):
     plt.savefig(os.path.join(config.output_dir, 'patchworkplot.png'), dpi = 300, transparent = config.transparent)
     plt.savefig(os.path.join(config.output_dir, 'patchworkplot.pdf'), dpi = 300)
     plt.clf()
-
