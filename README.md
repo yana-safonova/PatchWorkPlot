@@ -17,19 +17,19 @@ A tool for visualization of pairwise alignments of multiple sequences as [dot pl
   
 An example of the configuration file can be found here.
 
-`-o OUTPUR_DIR`: the name of output directory. If the directory does not exist, it will be created.
+`-o OUTPUR_DIR`: the name of the output directory. If the directory does not exist, it will be created.
 
 ### Optional parameters
-`--aligner NAME`: the name of tool used for pairwise alignment sequences. `lastz` (LASTZ) and `yass` (YASS) options are available. Default: `lastz`. 
+`--aligner NAME`: the name of a tool used for pairwise alignment sequences. `lastz` (LASTZ) and `yass` (YASS) options are available. Default: `lastz`. 
 
-`--cmap NAME`: the name of coloring map used for visualization of alignments. The minimum and maximum values of percent identity thresholds (`min-pi` and `max-pi`) will be used to determine the color of the alignment: 
+`--cmap NAME`: the name of a coloring map used for visualization of alignments. The minimum and maximum values of percent identity thresholds (`min-pi` and `max-pi`) will be used to determine the color of the alignment: 
 - Alignments with percent identity below `min-pi` will be shown using the leftmost color in the coloring cmap.
 - Alignments with percent identity above `max-pi` will be shown using the rightmost color in the coloring map.
 - Alignments with percent identity between `min-pi` and `max-pi` will be projected onto the coloring map and colored accordingly.
   
 For the list of available coloring maps, please refer to the [Matplotlib documentation](https://matplotlib.org/stable/users/explain/colors/colormaps.html). Default: `Spectral`.
 
-`--reverse-cmap BOOLEAN`: if `true`, then `min-pi` and `max-pi` values of the percent identities will correspond to the rightmost and leftmost colors of the coloring map, respectively. In case of the Spectral map, alignments with high and low percent identity will colored in red and blue, respectively. Default: `true`.  
+`--reverse-cmap BOOLEAN`: if `true`, then `min-pi` and `max-pi` values of the percent identities will correspond to the rightmost and leftmost colors of the coloring map, respectively. In the case of `Spectral` map, alignments with high and low percent identity will be colored in red and blue, respectively. Default: `true`.  
 
 `--min-pi FLOAT`: the alignment percent identity value that will be used to determine the color of the least similar alignments. Default: `85`.
 
@@ -75,7 +75,7 @@ PatchWorkPlot is useful to visualize highly repetitive sequences or sequences wi
 where:
 - `PATHS_TO_IGDETECTIVE_DIRS` is a space- or comma-separated paths to output directories of IgDetective. If the paths are separated by spaces, make sure to put them in double quotes: `"PATH_1 PATH_2 ... PATH_N"`.
 - `LOCUS`: a type of adaptive immune locus for which the config will be generated. Available options are `IGH, IGK, IGL, TRA, TRB, TRG`.
-- `OUTPUT_DIR`: the name of output directory. If the directory does not exist, it will be created.
+- `OUTPUT_DIR`: the name of the output directory. If the directory does not exist, it will be created.
 
 #### Example of joint usage of IgDetective & PatchWorkPlot 
 The directory [`test_dataset`](test_dataset) includes five IgDetective directories containing results of IG/TR locus annotation for five cat genomes: 
