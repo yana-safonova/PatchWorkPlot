@@ -31,6 +31,8 @@ For the list of available coloring maps, please refer to the [Matplotlib documen
 
 `--reverse-cmap BOOLEAN`: if `true`, then `min-pi` and `max-pi` values of the percent identities will correspond to the rightmost and leftmost colors of the coloring map, respectively. In the case of `Spectral` map, alignments with high and low percent identity will be colored in red and blue, respectively. Default: `true`.  
 
+`--color STRING`: alignments will be colored in the specified color. The value can be a color name (e.g., `black`) or a HEX code (e.g., `#000000`). If both `--color` and `--cmap` are specified, then the `--color` option will be used. 
+
 `--min-pi FLOAT`: the alignment percent identity value that will be used to determine the color of the least similar alignments. Default: `85`.
 
 `--max-pi FLOAT`: the alignment percent identity value that will be used to determine the color of the most similar alignments. Default: `100`.
