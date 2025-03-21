@@ -22,6 +22,10 @@ class EmptyGeneVisualizer:
     def VisualizeGenes(self, axes, gene_column_idx):
         return 
 
+    def VisualizePairwiseGenes(self, axes, idx1, idx2):
+        axes[1, 0].axis("off")
+        axes[0, 1].axis("off")
+
 class SimpleGeneVisualizer:
     def __init__(self, config, aligned_data):
         self.config = config
@@ -49,12 +53,54 @@ class SimpleGeneVisualizer:
                 width = max(2, abs(scaled_pos_list[0] - scaled_pos_list[1]))
                 rect = patches.Rectangle((0, min(scaled_pos_list)), 1, width, linewidth=0, edgecolor='r', facecolor=gene_df['Color'][i])
                 plt.gca().add_patch(rect)
-                #plt.plot([0, 1], [scaled_pos_list[0], scaled_pos_list[1]], linestyle = '-', marker = 'None', color = gene_df['Color'][i])
             plt.xlim(0, 1)
             plt.ylim(0, self.config.plot_scale)
             plt.xticks([], [])
             plt.yticks([], [])            
 
+    def VisualizePairwiseGenes(self, axes, idx1, idx2):
+        plt.sca(axes[1, 0])
+        gene_df2 = self.aligned_data.GetGeneTableByIdx(idx2)
+        locus_len2 = self.aligned_data.GetLengthByIdx(idx2)
+        strand2 = self.aligned_data.GetStrandByIdx(idx2)
+        for i in range(len(gene_df2)):
+            pos_list = utils.ModifyPos(gene_df2['Start'][i], locus_len2, strand2), utils.ModifyPos(gene_df2['End'][i], locus_len2, strand2)
+            scaled_pos_list = [gene_pos / locus_len2 * self.config.plot_scale for gene_pos in pos_list]
+            width = max(2, abs(scaled_pos_list[0] - scaled_pos_list[1]))
+            rect = patches.Rectangle((min(scaled_pos_list), 0), width, 1, linewidth=0, edgecolor='r', facecolor=gene_df2['Color'][i])
+            plt.gca().add_patch(rect)
+        plt.xlim(0, self.config.plot_scale)
+        plt.ylim(0, 1)
+        plt.xticks([], [])
+        plt.yticks([], [])
+        ####
+        if idx1 == idx2:
+            axes[0, 1].axis("off")
+            return
+        plt.sca(axes[0, 1])
+        gene_df1 = self.aligned_data.GetGeneTableByIdx(idx1)
+        locus_len1 = self.aligned_data.GetLengthByIdx(idx1)
+        strand1 = self.aligned_data.GetStrandByIdx(idx1)
+        for i in range(len(gene_df1)):
+            pos_list = utils.ModifyPos(gene_df1['Start'][i], locus_len1, strand1), utils.ModifyPos(gene_df1['End'][i], locus_len1, strand1)
+            scaled_pos_list = [(self.config.plot_scale - gene_pos / locus_len1 * self.config.plot_scale) for gene_pos in pos_list]
+            width = max(2, abs(scaled_pos_list[0] - scaled_pos_list[1]))
+            rect = patches.Rectangle((0, min(scaled_pos_list)), 1, width, linewidth=0, edgecolor='r', facecolor=gene_df1['Color'][i])
+            plt.gca().add_patch(rect)
+        plt.xlim(0, 1)
+        plt.ylim(0, self.config.plot_scale)
+        plt.xticks([], [])
+        plt.yticks([], [])
+
+
+class ColorUtils:
+    def __init__(self, config):
+        self.config = config
+
+    def GetColor(self, pi):
+        if self.config.color != '':
+            return self.config.color
+        return utils.ColorByPercentIdentity(self.config.cmap, pi, self.config.pi_min, self.config.pi_max, self.config.cmap_reverse)
 
 class UpperTriangleUtils:
     def __init__(self, aligned_data, gene_vis_utils):
@@ -89,6 +135,9 @@ class UpperTriangleUtils:
     def VisualizeGenes(self, axes):
         gene_col_idx = self.GetGeneColumnIndex()
         self.gene_vis_utils.VisualizeGenes(axes, gene_col_idx)
+
+    def VisualizePairwiseGenes(self, axes, idx1, idx2):
+        self.gene_vis_utils.VisualizePairwiseGenes(axes, idx1, idx2)
 
 class LowerTriangleUtils:
     def __init__(self, aligned_data, gene_vis_utils):
@@ -125,33 +174,15 @@ class LowerTriangleUtils:
         gene_col_idx = self.GetGeneColumnIndex()
         self.gene_vis_utils.VisualizeGenes(axes, gene_col_idx)
 
+    def VisualizePairwiseGenes(self, axes, idx1, idx2):
+        self.gene_vis_utils.VisualizePairwiseGenes(axes, idx1, idx2)
+
 
 def GetRatios(aligned_data):
     locus_lens = [aligned_data.GetLengthByIdx(i) for i in range(aligned_data.NumSamples())]
     min_len = min(locus_lens)
     ratios = [round(l / min_len, 2) for l in locus_lens]
     return ratios
-
-def PlotSelfAlignments(plot_utils, aligned_data, config):
-    for idx in range(aligned_data.NumSamples()):
-        df = aligned_data.GetAlignmentDF(idx, idx)
-        locus_len = aligned_data.GetLengthByIdx(idx)
-        plt.figure(figsize = (6, 6))
-        for i in range(len(df)):
-            pos1 = [df['start1_dir'][i], df['end1_dir'][i]]
-            pos2 = [df['start2_dir'][i], df['end2_dir'][i]]
-            scaled_pos1 = [pos / locus_len * config.plot_scale for pos in pos1]
-            scaled_pos2 = [pos / locus_len * config.plot_scale for pos in pos2]
-            pi = df['id%'][i]
-            pi_color = 'black' #utils.ColorByPercentIdentity(config.cmap, pi, config.pi_min, config.pi_max, config.cmap_reverse)
-            x, y = plot_utils.GetLineCoordinates(scaled_pos1[0], scaled_pos1[1], scaled_pos2[0], scaled_pos2[1], config.plot_scale)
-            plt.plot(x, y, color = pi_color, linewidth=config.linewidth, linestyle = '-', marker = 'None')
-        plt.xlim(0, config.plot_scale)
-        plt.ylim(0, config.plot_scale)
-        plt.xticks([], [])
-        plt.yticks([], [])
-        plt.savefig(os.path.join(config.output_dir, 'selfdotplot_' + aligned_data.GetSampleNameByIdx(idx) + '.png'), dpi = 300)
-        plt.clf()
 
 def VisualizePlot(plot_utils, aligned_data, config):
     #### get ratios
@@ -167,6 +198,7 @@ def VisualizePlot(plot_utils, aligned_data, config):
             axes[i, j].axis("off")
 
     #### plotting alignments
+    color_utils = ColorUtils(config)
     for idx1, idx2 in aligned_data.IndexPairIterator():
         plot_utils.SetCurrentAxes(axes, idx1, idx2)
         df = aligned_data.GetAlignmentDF(idx1, idx2)
@@ -178,7 +210,7 @@ def VisualizePlot(plot_utils, aligned_data, config):
             scaled_pos1 = [pos / len1 * config.plot_scale for pos in pos1]
             scaled_pos2 = [pos / len2 * config.plot_scale for pos in pos2]
             pi = df['id%'][i]
-            pi_color = utils.ColorByPercentIdentity(config.cmap, pi, config.pi_min, config.pi_max, config.cmap_reverse)
+            pi_color = color_utils.GetColor(pi) 
             x, y = plot_utils.GetLineCoordinates(scaled_pos1[0], scaled_pos1[1], scaled_pos2[0], scaled_pos2[1], config.plot_scale)
             plt.plot(x, y, color = pi_color, linewidth=config.linewidth, linestyle = '-', marker = 'None')
         plt.xlim(0, config.plot_scale)
@@ -201,3 +233,42 @@ def VisualizePlot(plot_utils, aligned_data, config):
     plt.savefig(os.path.join(config.output_dir, 'patchworkplot.png'), dpi = 300, transparent = config.transparent)
     plt.savefig(os.path.join(config.output_dir, 'patchworkplot.pdf'), dpi = 300)
     plt.clf()
+
+def GetFigureSizes(len1, len2):
+    max_len = 6
+    min_len = 6 * min(len1, len2) / max(len1, len2)
+    if len1 == max(len1, len2):
+        return min_len, max_len
+    return max_len, min_len
+
+def PlotPairwiseAlignments(plot_utils, aligned_data, config):
+    color_utils = ColorUtils(config)
+    ratio = 10
+    for idx1 in range(aligned_data.NumSamples()):
+        for idx2 in range(idx1, aligned_data.NumSamples()):
+            df = aligned_data.GetAlignmentDF(idx1, idx2)
+            locus_len1 = aligned_data.GetLengthByIdx(idx1)
+            locus_len2 = aligned_data.GetLengthByIdx(idx2)
+            s1, s2 = GetFigureSizes(locus_len1, locus_len2)
+            ratio2 = s1 * (ratio + 1) / s2
+            fig, axes = plt.subplots(2, 2, figsize = (s1, s2), gridspec_kw={'height_ratios': [ratio, 1], 'width_ratios' : [(ratio2 + 1), 1]})
+            plt.sca(axes[0, 0])
+            for i in range(len(df)):
+                pos1 = [df['start1_dir'][i], df['end1_dir'][i]]
+                pos2 = [df['start2_dir'][i], df['end2_dir'][i]]
+                scaled_pos1 = [pos / locus_len1 * config.plot_scale for pos in pos1]
+                scaled_pos2 = [pos / locus_len2 * config.plot_scale for pos in pos2]
+                pi = df['id%'][i]
+                pi_color = color_utils.GetColor(pi)
+                x, y = plot_utils.GetLineCoordinates(scaled_pos1[0], scaled_pos1[1], scaled_pos2[0], scaled_pos2[1], config.plot_scale)
+                plt.plot(x, y, color = pi_color, linewidth=config.linewidth, linestyle = '-', marker = 'None')
+            plt.xlim(0, config.plot_scale)
+            plt.ylim(0, config.plot_scale)
+            plt.xticks([], [])
+            plt.yticks([], [])
+            plot_utils.VisualizePairwiseGenes(axes, idx1, idx2)
+            axes[1, 1].axis("off")
+            plt.subplots_adjust(hspace = 0, wspace = 0)
+            plt.savefig(os.path.join(config.pairwise_plot_dir, str(idx1) + '-' + aligned_data.GetSampleNameByIdx(idx1) + '_' + str(idx2) + '-' + aligned_data.GetSampleNameByIdx(idx2) + '.png'), dpi = 300)
+            plt.clf()
+            plt.close()

@@ -26,6 +26,7 @@ def main(command_args):
 
     input_data = data_utils.InputData(config.input_csv)
     utils.PrepareDir(config.align_dir)
+    utils.PrepareDir(config.pairwise_plot_dir)
 
     aligner_builder = tool_builder.AlignerFactory(config)
     pairwise_aligner = aligner_builder.GetAligner()
@@ -37,7 +38,7 @@ def main(command_args):
     visualizer_builder = tool_builder.VisualizerBuilder(config, aligned_data)
     plot_visualizer = visualizer_builder.GetPlotVisualizer()
     vis_utils.VisualizePlot(plot_visualizer, aligned_data, config)
-    vis_utils.PlotSelfAlignments(plot_visualizer, aligned_data, config)
+    vis_utils.PlotPairwiseAlignments(plot_visualizer, aligned_data, config)
     print('Visualization stage is complete')
 
     print('\nThank you for using PatchWorkPlot!')

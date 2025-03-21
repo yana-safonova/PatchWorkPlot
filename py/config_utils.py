@@ -23,6 +23,7 @@ class Config:
         self.plot_scale = 1000
         self.cmap = 'Spectral'
         self.cmap_reverse = True
+        self.color = ''
         self.upper_triangle = True
         self.linewidth = 1
         self.show_annotation = False
@@ -34,7 +35,7 @@ class Config:
     def _ParseCommandLineParams(self, command_args):
         opts = []
         try:
-            opts, args = getopt.getopt(command_args, 'i:o:',  ['min-pi=', 'max-pi=', 'aligner=', 'min-len=', 'cmap=', 'reverse-cmap=', 'lower', 'lwidth=', 'show-annot', 'transparent', 'help'])
+            opts, args = getopt.getopt(command_args, 'i:o:',  ['min-pi=', 'max-pi=', 'aligner=', 'min-len=', 'cmap=', 'reverse-cmap=', 'color=', 'lower', 'lwidth=', 'show-annot', 'transparent', 'help'])
         except:
             print('Error')
         for opt, arg in opts:
@@ -54,6 +55,8 @@ class Config:
                 self.cmap = arg
             elif opt == '--reverse-cmap':
                 self.cmap_reverse = arg.lower() == 'true'
+            elif opt == '--color':
+                self.color = arg
             elif opt == '--lower':
                 self.upper_triangle = False
             elif opt == '--lwidth':
@@ -67,9 +70,16 @@ class Config:
                 sys.exit(0)
 
     def _CheckParameterCompleteness(self):
-        #### check existence of input_csv / output_dir
+        if self.input_csv == '' or not os.path.exists(self.input_csv):
+            print('ERROR: config file \"' + self.input_csv + '\" (-i) was empty or not found')
+            sys.exit(1)
+        if self.output_dir == '':
+            print('ERROR: output directory (-o) was not speficied')
+            sys.exit(1)
+
         self.align_dir = os.path.join(self.output_dir, 'pairwise_alignments')
         self.align_stats_csv = os.path.join(self.output_dir, 'alignment_stats.csv')
+        self.pairwise_plot_dir = os.path.join(self.output_dir, 'pairwise_dotplots')
 
     def PrintHelpMessage(self):
         print('python PatchWorkPlot.py -i INPUT_CONFIG.CSV -o OUTPUT_DIR [--aligner METHOD --min-pi FLOAT --max-pi FLOAT --min-len INT --cmap CMAP_NAME --reverse-cmap BOOL --lower --lwidth INT --show-annot --transparent --help]')
