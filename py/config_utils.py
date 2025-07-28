@@ -16,6 +16,7 @@ class Config:
         self.min_align_len = 5000
         self.alignment_method = 'lastz' # or 'yass'
         self.lastz_params = '--step=20 --notransition'
+        self.skip_align = False
 
         #### visualization params
         self.pi_min = 85
@@ -27,15 +28,21 @@ class Config:
         self.upper_triangle = True
         self.linewidth = 1
         self.show_annotation = False
+        self.add_legend = False
 
         #### output params
         self.transparent = False
         self.output_dir = ''
+        self.verbose = 3
 
     def _ParseCommandLineParams(self, command_args):
         opts = []
         try:
-            opts, args = getopt.getopt(command_args, 'i:o:',  ['min-pi=', 'max-pi=', 'aligner=', 'min-len=', 'cmap=', 'reverse-cmap=', 'color=', 'lower', 'lwidth=', 'show-annot', 'transparent', 'help'])
+            opts, args = getopt.getopt(command_args, 'i:o:hv::',  ['min-pi=', 'max-pi=', 'aligner=',
+                                                               'min-len=', 'cmap=', 'reverse-cmap=',
+                                                               'color=', 'lower', 'lwidth=', 'show-annot',
+                                                               'transparent', 'help',
+                                                               'verbose=', 'v=', 'add-legend'])
         except:
             print('Error')
         for opt, arg in opts:
@@ -65,7 +72,11 @@ class Config:
                 self.show_annotation = True
             elif opt == '--transparent':
                 self.transparent = True
-            elif opt == '--help':
+            elif opt == '--add-legend':
+                self.add_legend = True
+            elif opt == '--verbose' or opt == '-v':
+                self.verbose = int(arg)
+            elif opt == '--help' or opt == '-h':
                 self.PrintHelpMessage()
                 sys.exit(0)
 
@@ -82,4 +93,4 @@ class Config:
         self.pairwise_plot_dir = os.path.join(self.output_dir, 'pairwise_dotplots')
 
     def PrintHelpMessage(self):
-        print('python PatchWorkPlot.py -i INPUT_CONFIG.CSV -o OUTPUT_DIR [--aligner METHOD --min-pi FLOAT --max-pi FLOAT --min-len INT --cmap CMAP_NAME --reverse-cmap BOOL --lower --lwidth INT --show-annot --transparent --help]')
+        print('python PatchWorkPlot.py -i INPUT_CONFIG.CSV -o OUTPUT_DIR [--aligner METHOD --skip-align --min-pi FLOAT --max-pi FLOAT --min-len INT --cmap CMAP_NAME --reverse-cmap BOOL --lower --lwidth INT --show-annot --transparent --add-legend --verbose/-v VERBOSE --help/-h]')

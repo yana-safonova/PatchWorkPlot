@@ -4,7 +4,8 @@ import pandas as pd
 from collections import Counter
 from Bio import SeqIO
 
-sys.path.append('py')
+pwd = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(pwd, 'py'))
 import utils
 
 class InputData:
@@ -13,7 +14,8 @@ class InputData:
         self._InitiateData()
 
     def _InitiateData(self):
-        self.data_df = pd.read_csv(self.data_csv)
+        self.ending = '\t' if self.data_csv.endswith('.tsv') else ','
+        self.data_df = pd.read_csv(self.data_csv, sep=self.ending)
         self.seq_list = []
         for i in range(len(self.data_df)):
             seq = [str(r.seq).upper() for r in SeqIO.parse(self.data_df['Fasta'][i], 'fasta')][0]
@@ -33,7 +35,7 @@ class InputData:
     def GetDefaultStrandByIdx(self, idx):
         if 'Strand' in self.data_df.columns:
             return self.data_df['Strand'][idx]
-        return float('nan')    
+        return float('nan')
 
     def GetFastaByIdx(self, idx):
         return self.data_df['Fasta'][idx]
@@ -82,7 +84,7 @@ class YassPairwiseAligner:
         lines = open(output_fname).readlines()[1:]
         df = {'id%' : [], 'start1' : [], 'end1' : [], 'start2' : [], 'end2' : []}
         for l in lines:
-            splits = l.strip().split()        
+            splits = l.strip().split()
             # 0name1	1name2	2id%	3alignment_length	4mismatches	5gap_opening	6start1	7end1	8start2	9end2	eval	bit_score
             df['id%'].append(splits[2] + '%')
             df['start1'].append(int(splits[6]))
@@ -107,6 +109,8 @@ class YassPairwiseAligner:
         df['strand2'] = strand_list
         df['length1'] = [abs(df['start1'][i] - df['end1'][i]) for i in range(len(df))]
         df['length2'] = [abs(df['start2'][i] - df['end2'][i]) for i in range(len(df))]
+
+        #if self.config.verbose == 3: ## ADD??
         print('Parsing ' + output_fname + '...')
         return df
 
@@ -116,18 +120,25 @@ class AlignedData:
         self.pairwise_aligner = pairwise_aligner
         self.align_dir = config.align_dir
         self.config = config
-        print('Computing pairwise alignments...')
+
+        if self.config.verbose == 2 or self.config.verbose == 3:
+            print('Computing pairwise alignments...')
         self._PerformPairwiseAlignments()
         self._ReadAlignments()
-        print('Redefining strands...')
+
+        if self.config.verbose == 2 or self.config.verbose == 3:
+            print('Redefining strands...')
         self._RedefineStrands()
-        print('Redirecting alignments...')
+
+        if self.config.verbose == 2 or self.config.verbose == 3:
+            print('Redirecting alignments...')
         self._RedirectAlignments()
 
     def _PerformPairwiseAlignments(self):
         self.align_dict = dict()
         for i in range(self.input_data.NumSamples()):
-            print('Aligning ' + self.input_data.GetSampleNameByIdx(i) + '...')
+            if self.config.verbose == 3:
+                print('Aligning ' + self.input_data.GetSampleNameByIdx(i) + '...')
 
             #self dot plot
             sample_name1 = self.input_data.GetSampleNameByIdx(i)
@@ -135,7 +146,9 @@ class AlignedData:
             out_self = os.path.join(self.align_dir, 'self_' + str(i) + '-' + sample_name1 + '.tsv')
             if not os.path.exists(out_self):
                 self.pairwise_aligner.AlignTwoFasta(fasta1, fasta1, out_self)
-            print('  ' + out_self + ' was computed')
+
+            if self.config.verbose == 3:
+                print('  ' + out_self + ' was computed')
             self.align_dict[i, i] = out_self
 
             # pairwise dot plots
@@ -145,7 +158,8 @@ class AlignedData:
                 out_pair = os.path.join(self.align_dir, 'pair_' + str(i) + '-' + sample_name1 + '_' + str(j) + '-' + sample_name2 + '.tsv')
                 if not os.path.exists(out_pair):
                     self.pairwise_aligner.AlignTwoFasta(fasta1, fasta2, out_pair)
-                print('  ' + out_pair + ' was computed')
+                if self.config.verbose == 3:
+                    print('  ' + out_pair + ' was computed')
                 self.align_dict[i, j] = out_pair
 
     def _ReadAlignments(self):
@@ -171,7 +185,8 @@ class AlignedData:
             strand_counter = Counter(sorted_df[:15]['strand2'])
             best_strand = [s for s in sorted(strand_counter, key = lambda x : strand_counter[x], reverse = True)][0]
             self.strands.append(best_strand)
-        print('Strands:', self.strands)
+        if self.config.verbose == 2 or self.config.verbose == 3:
+            print('Strands:', self.strands)
 
     def _RedirectAlignments(self):
         for idx1, idx2 in self.align_dfs:
