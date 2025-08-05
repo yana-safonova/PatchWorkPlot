@@ -7,6 +7,7 @@ from Bio import SeqIO
 pwd = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(pwd, 'py'))
 import utils
+import minimap2_utils
 
 class InputData:
     def __init__(self, data_csv):
@@ -110,9 +111,26 @@ class YassPairwiseAligner:
         df['length1'] = [abs(df['start1'][i] - df['end1'][i]) for i in range(len(df))]
         df['length2'] = [abs(df['start2'][i] - df['end2'][i]) for i in range(len(df))]
 
-        #if self.config.verbose == 3: ## ADD??
         print('Parsing ' + output_fname + '...')
         return df
+
+
+class Minimap2Aligner:
+    def __init__(self, config):
+        self.config = config
+        #self.minimap2_params = '--secondary=yes -P -k10 -w5 --no-long-join -r 100 -g 500'
+        #self.minimap2_params = '--secondary=yes -P -k10 -w5 --no-long-join -r 1000 -g 10'
+        self.minimap2_params = '--secondary=yes -P -k15 -w10 --no-long-join -r 100 -g 50 -s 150'
+
+    def AlignTwoFasta(self, fasta1, fasta2, output_fname):
+        os.system(f'minimap2 {self.minimap2_params} {fasta1} {fasta2} > {output_fname} 2>/dev/null')
+
+    def GetAlignedDF(self, output_fname):
+
+        parser = minimap2_utils.Minimap2Reader(output_fname)
+        df = parser.ParsePaf()
+        return df
+
 
 class AlignedData:
     def __init__(self, input_data, pairwise_aligner, config):
@@ -121,23 +139,20 @@ class AlignedData:
         self.align_dir = config.align_dir
         self.config = config
 
-        if self.config.verbose == 2 or self.config.verbose == 3:
-            print('Computing pairwise alignments...')
+        print('Computing pairwise alignments...')
         self._PerformPairwiseAlignments()
         self._ReadAlignments()
 
-        if self.config.verbose == 2 or self.config.verbose == 3:
-            print('Redefining strands...')
+        print('Redefining strands...')
         self._RedefineStrands()
 
-        if self.config.verbose == 2 or self.config.verbose == 3:
-            print('Redirecting alignments...')
+        print('Redirecting alignments...')
         self._RedirectAlignments()
 
     def _PerformPairwiseAlignments(self):
         self.align_dict = dict()
         for i in range(self.input_data.NumSamples()):
-            if self.config.verbose == 3:
+            if self.config.verbose == 2:
                 print('Aligning ' + self.input_data.GetSampleNameByIdx(i) + '...')
 
             #self dot plot
@@ -147,7 +162,7 @@ class AlignedData:
             if not os.path.exists(out_self):
                 self.pairwise_aligner.AlignTwoFasta(fasta1, fasta1, out_self)
 
-            if self.config.verbose == 3:
+            if self.config.verbose == 2:
                 print('  ' + out_self + ' was computed')
             self.align_dict[i, i] = out_self
 
@@ -158,7 +173,7 @@ class AlignedData:
                 out_pair = os.path.join(self.align_dir, 'pair_' + str(i) + '-' + sample_name1 + '_' + str(j) + '-' + sample_name2 + '.tsv')
                 if not os.path.exists(out_pair):
                     self.pairwise_aligner.AlignTwoFasta(fasta1, fasta2, out_pair)
-                if self.config.verbose == 3:
+                if self.config.verbose == 2:
                     print('  ' + out_pair + ' was computed')
                 self.align_dict[i, j] = out_pair
 
@@ -185,7 +200,7 @@ class AlignedData:
             strand_counter = Counter(sorted_df[:15]['strand2'])
             best_strand = [s for s in sorted(strand_counter, key = lambda x : strand_counter[x], reverse = True)][0]
             self.strands.append(best_strand)
-        if self.config.verbose == 2 or self.config.verbose == 3:
+        if self.config.verbose == 2:
             print('Strands:', self.strands)
 
     def _RedirectAlignments(self):

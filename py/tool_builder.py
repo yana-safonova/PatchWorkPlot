@@ -11,7 +11,10 @@ class AlignerFactory:
     def GetAligner(self):
         if self.config.alignment_method == 'yass':
             return data_utils.YassPairwiseAligner(self.config)
+        elif self.config.alignment_method == 'minimap2':
+            return data_utils.Minimap2Aligner(self.config)
         return data_utils.LastZPairwiseAligner(self.config)
+
 
 class VisualizerBuilder:
     def __init__(self, config, aligned_data):

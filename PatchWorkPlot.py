@@ -34,18 +34,15 @@ def main(command_args):
     pairwise_aligner = aligner_builder.GetAligner()
     aligned_data = data_utils.AlignedData(input_data, pairwise_aligner, config)
     aligned_data.ReportSummaryAlignmentStats(config.align_stats_csv)
-    if config.verbose == 2 or config.verbose == 3:
-        print('Alignment stage is complete')
+    print('Alignment stage is complete')
 
-    if config.verbose == 3:
-        print('\nVisualizing alignments...')
+    print('\nVisualizing alignments...')
     visualizer_builder = tool_builder.VisualizerBuilder(config, aligned_data)
     plot_visualizer = visualizer_builder.GetPlotVisualizer()
     vis_utils.VisualizePlot(plot_visualizer, aligned_data, config)
     vis_utils.PlotPairwiseAlignments(plot_visualizer, aligned_data, config)
 
-    if config.verbose == 2 or config.verbose == 3:
-        print('Visualization stage is complete')
+    print('Visualization stage is complete')
 
     print('\nThank you for using PatchWorkPlot!')
     PrintPatchWorkLogo()

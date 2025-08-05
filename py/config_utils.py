@@ -14,9 +14,8 @@ class Config:
 
         #### alignment params
         self.min_align_len = 5000
-        self.alignment_method = 'lastz' # or 'yass'
+        self.alignment_method = 'lastz' # or 'yass', 'minimap2'
         self.lastz_params = '--step=20 --notransition'
-        self.skip_align = False
 
         #### visualization params
         self.pi_min = 85
@@ -28,12 +27,12 @@ class Config:
         self.upper_triangle = True
         self.linewidth = 1
         self.show_annotation = False
-        self.add_legend = False
+        self.hide_legend = False
 
         #### output params
         self.transparent = False
         self.output_dir = ''
-        self.verbose = 3
+        self.verbose = 2
 
     def _ParseCommandLineParams(self, command_args):
         opts = []
@@ -42,7 +41,7 @@ class Config:
                                                                'min-len=', 'cmap=', 'reverse-cmap=',
                                                                'color=', 'lower', 'lwidth=', 'show-annot',
                                                                'transparent', 'help',
-                                                               'verbose=', 'v=', 'add-legend'])
+                                                               'verbose=', 'v=', 'hide-legend'])
         except:
             print('Error')
         for opt, arg in opts:
@@ -72,8 +71,8 @@ class Config:
                 self.show_annotation = True
             elif opt == '--transparent':
                 self.transparent = True
-            elif opt == '--add-legend':
-                self.add_legend = True
+            elif opt == '--hide-legend':
+                self.hide_legend = True
             elif opt == '--verbose' or opt == '-v':
                 self.verbose = int(arg)
             elif opt == '--help' or opt == '-h':
@@ -93,4 +92,4 @@ class Config:
         self.pairwise_plot_dir = os.path.join(self.output_dir, 'pairwise_dotplots')
 
     def PrintHelpMessage(self):
-        print('python PatchWorkPlot.py -i INPUT_CONFIG.CSV -o OUTPUT_DIR [--aligner METHOD --skip-align --min-pi FLOAT --max-pi FLOAT --min-len INT --cmap CMAP_NAME --reverse-cmap BOOL --lower --lwidth INT --show-annot --transparent --add-legend --verbose/-v VERBOSE --help/-h]')
+        print('python PatchWorkPlot.py -i INPUT_CONFIG.CSV -o OUTPUT_DIR [--aligner METHOD --min-pi FLOAT --max-pi FLOAT --min-len INT --cmap CMAP_NAME --reverse-cmap BOOL --lower --lwidth INT --show-annot --transparent --hide-legend --verbose/-v VERBOSE --help/-h]')

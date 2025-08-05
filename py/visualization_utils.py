@@ -220,14 +220,20 @@ def VisualizePlot(plot_utils, aligned_data, config):
         plt.yticks([], [])
 
     #### add legend
-    if config.add_legend:
+    if not config.hide_legend:
         if config.upper_triangle:
             cax = fig.add_axes([0.64, 0.09, 0.258, 0.007])
         else:
             cax = fig.add_axes([0.125, 0.09, 0.258, 0.007])
+
+        if config.cmap_reverse:
+            cmap = plt.get_cmap(config.cmap).reversed()
+        else:
+            cmap = plt.get_cmap(config.cmap)
+
         ColorbarBase(
             cax,
-            cmap=plt.get_cmap(config.cmap),
+            cmap=cmap,
             norm=plt.Normalize(config.pi_min, config.pi_max),
             orientation='horizontal',
             ticks=[config.pi_min, config.pi_max],

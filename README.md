@@ -93,7 +93,7 @@ The following command lines generates a configuration file for immunoglobulin he
 
 Then, PatchWorkPlot takes the compiled configuration file and visualizes pairwise alignments of the IGH loci. The `--show-annot` option is used to illustrate positions of IGH genes predicted by IgDetective: 
 
-`python PatchWorkPlot.py -o cats_IGH_configuration/config.csv -o cats_IGH_patchworkplot --show-annot`
+`python PatchWorkPlot.py -i cats_IGH_configuration/config.csv -o cats_IGH_patchworkplot --show-annot`
 
 ## Gallery
 | Annotation | Upper triangle | Lower triangle |

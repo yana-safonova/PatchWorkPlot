@@ -1,6 +1,7 @@
 import os
 import sys
 import pandas as pd
+import py.minimap2_utils
 
 pwd = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(pwd, 'py'))
@@ -21,28 +22,24 @@ for index, row in align_config.iterrows():
     name_1 = row['name1']
     name_2 = row['name2']
     paf_path = row['pafPath']
+    direction = row['direction']
 
-    paf = pd.read_csv(paf_path, header=None, sep='\t',
-                     usecols=range(12), comment="#", engine="python")
+    parser = py.minimap2_utils.Minimap2Reader(paf_path)
+    paf = parser.ParsePaf()
 
-    paf = paf.rename(columns={0:'#name1',
-                             4:'strand2',
-                             2:'start1',
-                             3:'end1',
-                             5:'name2',
-                             7:'start2+',
-                             8:'end2+',
-                             9: 'id%'})
-    paf['strand1'] = '+'
-    paf['length1'] = (paf['end1'].astype(int) - paf['start1'].astype(int))
-
-    paf['length2'] = (paf['end2+'].astype(int) - paf['start2+'].astype(int))
-
-    paf['id%'] = paf['id%']/paf['length1']*100
-    paf['id%'] = paf['id%'].apply(lambda x: str(round(x, 1)) + '%')
-
-    paf = paf[['#name1', 'strand1', 'start1', 'end1', 'length1', 'name2',
-               'strand2', 'start2+', 'end2+', 'length2', 'id%']]
+    '''elif direction == 'F':
+        paf = paf.rename(columns={0:'#name1',
+                                 4:'strand2',
+                                 2:'start1',
+                                 3:'end1',
+                                 5:'name2',
+                                 7:'start2+',
+                                 8:'end2+',
+                                 9: 'id%'})
+        paf['strand1'] = '+'
+    else:
+        print('ERROR: alignment config file column DIRECTION should only contain values F/R')
+        sys.exit(1)'''
 
     if name_1 == name_2:
         paf.to_csv(f'{out_dir}/self_{name_1}.tsv', sep='\t', index=False)
