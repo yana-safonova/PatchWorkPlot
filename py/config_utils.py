@@ -28,6 +28,10 @@ class Config:
         self.linewidth = 1
         self.show_annotation = False
         self.hide_legend = False
+        self.show_breakpoints = False
+        self.bp_color = '#7F7F7F'
+        self.bp_min_len = 10000
+        self.bp_linewidth = 0.2
 
         #### output params
         self.transparent = False
@@ -39,7 +43,8 @@ class Config:
         try:
             opts, args = getopt.getopt(command_args, 'i:o:hv::',  ['min-pi=', 'max-pi=', 'aligner=',
                                                                'min-len=', 'cmap=', 'reverse-cmap=',
-                                                               'color=', 'lower', 'lwidth=', 'show-annot',
+                                                               'color=', 'lower', 'lwidth=', 'show-annot', 
+                                                               'show-bp', 'bp-color=', 'bp-min-len=', 'bp-lwidth=',
                                                                'transparent', 'help',
                                                                'verbose=', 'v=', 'hide-legend'])
         except:
@@ -69,6 +74,14 @@ class Config:
                 self.linewidth = float(arg)
             elif opt == '--show-annot':
                 self.show_annotation = True
+            elif opt == '--show-bp':
+                self.show_breakpoints = True
+            elif opt == '--bp-color':
+                self.bp_color = arg
+            elif opt == '--bp-min-len':
+                self.bp_min_len = int(arg)
+            elif opt == '--bp-lwidth':
+                self.bp_linewidth = float(arg)
             elif opt == '--transparent':
                 self.transparent = True
             elif opt == '--hide-legend':

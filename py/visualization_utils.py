@@ -214,6 +214,14 @@ def VisualizePlot(plot_utils, aligned_data, config):
             pi_color = color_utils.GetColor(pi)
             x, y = plot_utils.GetLineCoordinates(scaled_pos1[0], scaled_pos1[1], scaled_pos2[0], scaled_pos2[1], config.plot_scale)
             plt.plot(x, y, color = pi_color, linewidth=config.linewidth, linestyle = '-', marker = 'None')
+            #### add breakpoints
+            if config.show_breakpoints:
+                if min(abs(pos2[1] - pos2[0]), abs(pos1[1] - pos1[0])) <= config.bp_min_len:
+                    continue
+                plt.plot([0, config.plot_scale], [y[0], y[0]], color = config.bp_color, linestyle = '-', marker = 'None', linewidth = config.bp_linewidth)
+                plt.plot([0, config.plot_scale], [y[1], y[1]], color = config.bp_color, linestyle = '-', marker = 'None', linewidth = config.bp_linewidth)
+                plt.plot([x[0], x[0]], [0, config.plot_scale], color = config.bp_color, linestyle = '-', marker = 'None', linewidth = config.bp_linewidth)
+                plt.plot([x[1], x[1]], [0, config.plot_scale], color = config.bp_color, linestyle = '-', marker = 'None', linewidth = config.bp_linewidth)
         plt.xlim(0, config.plot_scale)
         plt.ylim(0, config.plot_scale)
         plt.xticks([], [])
