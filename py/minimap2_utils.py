@@ -17,10 +17,14 @@ class Minimap2Reader:
                                 2: 'start2+',
                                 3: 'end2+',
                                 9: 'id%'})
+
         df['strand2'] = '+'
 
         df['length1'] = (df['end1'].astype(int) - df['start1'].astype(int))
         df['length2'] = (df['end2+'].astype(int) - df['start2+'].astype(int))
+
+        mask = df['strand1'] == '-'
+        df.loc[mask, ['start2+', 'end2+']] = df.loc[mask, ['end2+', 'start2+']].values
 
         df['id%'] = df['id%'] / df[['length1', 'length2']].min(axis=1) * 100
         df['id%'] = df['id%'].apply(lambda x: str(round(x, 1)) + '%')
