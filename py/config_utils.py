@@ -44,7 +44,7 @@ class Config:
         opts = []
         try:
             opts, args = getopt.getopt(command_args, 'i:o:hv::',  ['min-pi=', 'max-pi=', 'aligner=',
-                                                               'minimap2-params=', 'mashmap-params='
+                                                               'minimap2-params=', 'mashmap-params=',
                                                                'min-len=', 'cmap=', 'reverse-cmap=',
                                                                'color=', 'lower', 'lwidth=', 'show-annot', 
                                                                'show-bp', 'bp-color=', 'bp-min-len=', 'bp-lwidth=',
