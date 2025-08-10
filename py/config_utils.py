@@ -50,8 +50,9 @@ class Config:
                                                                'show-bp', 'bp-color=', 'bp-min-len=', 'bp-lwidth=',
                                                                'transparent', 'help',
                                                                'verbose=', 'v=', 'hide-legend'])
-        except:
-            print('Error')
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            sys.exit(1)
         for opt, arg in opts:
             if opt == '-i':
                 self.input_csv = arg
