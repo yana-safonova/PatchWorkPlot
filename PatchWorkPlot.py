@@ -3,7 +3,9 @@ import sys
 import pandas as pd
 import getopt
 
-sys.path.append('py')
+pwd = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(pwd, 'py'))
+
 import config_utils
 import visualization_utils as vis_utils
 import utils
@@ -31,7 +33,7 @@ def main(command_args):
     aligner_builder = tool_builder.AlignerFactory(config)
     pairwise_aligner = aligner_builder.GetAligner()
     aligned_data = data_utils.AlignedData(input_data, pairwise_aligner, config)
-    aligned_data.ReportSummaryAlignmentStats(config.align_stats_csv) 
+    aligned_data.ReportSummaryAlignmentStats(config.align_stats_csv)
     print('Alignment stage is complete')
 
     print('\nVisualizing alignments...')
@@ -39,6 +41,7 @@ def main(command_args):
     plot_visualizer = visualizer_builder.GetPlotVisualizer()
     vis_utils.VisualizePlot(plot_visualizer, aligned_data, config)
     vis_utils.PlotPairwiseAlignments(plot_visualizer, aligned_data, config)
+
     print('Visualization stage is complete')
 
     print('\nThank you for using PatchWorkPlot!')
@@ -46,3 +49,6 @@ def main(command_args):
 
 if __name__ == '__main__':
     main(sys.argv[1:])
+
+def cli():
+    return main(sys.argv[1:])

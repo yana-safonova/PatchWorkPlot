@@ -2,7 +2,9 @@ import os
 import sys
 import pandas as pd
 
-sys.path.append('py')
+pwd = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(pwd, 'py'))
+
 import utils
 
 igdetect_dirs = sys.argv[1].split()

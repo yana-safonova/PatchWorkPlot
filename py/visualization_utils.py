@@ -3,6 +3,7 @@ import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+from matplotlib.colorbar import ColorbarBase
 
 import utils
 
@@ -20,7 +21,7 @@ class EmptyGeneVisualizer:
         return 0
 
     def VisualizeGenes(self, axes, gene_column_idx):
-        return 
+        return
 
     def VisualizePairwiseGenes(self, axes, idx1, idx2):
         axes[1, 0].axis("off")
@@ -56,7 +57,7 @@ class SimpleGeneVisualizer:
             plt.xlim(0, 1)
             plt.ylim(0, self.config.plot_scale)
             plt.xticks([], [])
-            plt.yticks([], [])            
+            plt.yticks([], [])
 
     def VisualizePairwiseGenes(self, axes, idx1, idx2):
         plt.sca(axes[1, 0])
@@ -113,7 +114,7 @@ class UpperTriangleUtils:
         axes[idx1][idx2].axis('on')
 
     def GetGeneColumnIndex(self):
-        return self.num_samples        
+        return self.num_samples
 
     def GetWidthRatios(self, ratios):
         return ratios + self.gene_vis_utils.GetColumnWidth()
@@ -163,7 +164,7 @@ class LowerTriangleUtils:
         return self.num_samples
 
     def GetLineCoordinates(self, x1, x2, y1, y2, scale):
-        return [x1, x2], [scale - y1, scale - y2] 
+        return [x1, x2], [scale - y1, scale - y2]
 
     def SetLabels(self, axes, sample_labels):
         for idx, label in enumerate(sample_labels):
@@ -210,13 +211,42 @@ def VisualizePlot(plot_utils, aligned_data, config):
             scaled_pos1 = [pos / len1 * config.plot_scale for pos in pos1]
             scaled_pos2 = [pos / len2 * config.plot_scale for pos in pos2]
             pi = df['id%'][i]
-            pi_color = color_utils.GetColor(pi) 
+            pi_color = color_utils.GetColor(pi)
             x, y = plot_utils.GetLineCoordinates(scaled_pos1[0], scaled_pos1[1], scaled_pos2[0], scaled_pos2[1], config.plot_scale)
             plt.plot(x, y, color = pi_color, linewidth=config.linewidth, linestyle = '-', marker = 'None')
+            #### add breakpoints
+            if config.show_breakpoints:
+                if min(abs(pos2[1] - pos2[0]), abs(pos1[1] - pos1[0])) <= config.bp_min_len:
+                    continue
+                plt.plot([0, config.plot_scale], [y[0], y[0]], color = config.bp_color, linestyle = '-', marker = 'None', linewidth = config.bp_linewidth)
+                plt.plot([0, config.plot_scale], [y[1], y[1]], color = config.bp_color, linestyle = '-', marker = 'None', linewidth = config.bp_linewidth)
+                plt.plot([x[0], x[0]], [0, config.plot_scale], color = config.bp_color, linestyle = '-', marker = 'None', linewidth = config.bp_linewidth)
+                plt.plot([x[1], x[1]], [0, config.plot_scale], color = config.bp_color, linestyle = '-', marker = 'None', linewidth = config.bp_linewidth)
         plt.xlim(0, config.plot_scale)
         plt.ylim(0, config.plot_scale)
         plt.xticks([], [])
         plt.yticks([], [])
+
+    #### add legend
+    if not config.hide_legend:
+        if config.upper_triangle:
+            cax = fig.add_axes([0.64, 0.09, 0.258, 0.007])
+        else:
+            cax = fig.add_axes([0.125, 0.09, 0.258, 0.007])
+
+        if config.cmap_reverse:
+            cmap = plt.get_cmap(config.cmap).reversed()
+        else:
+            cmap = plt.get_cmap(config.cmap)
+
+        ColorbarBase(
+            cax,
+            cmap=cmap,
+            norm=plt.Normalize(config.pi_min, config.pi_max),
+            orientation='horizontal',
+            ticks=[config.pi_min, config.pi_max],
+            label='% identity'
+        )
 
     #### adding labels and gene positions
     labels = []
@@ -230,8 +260,8 @@ def VisualizePlot(plot_utils, aligned_data, config):
 
     #### output plot as .PNG, .PDF
     plt.subplots_adjust(hspace = 0, wspace = 0)
-    plt.savefig(os.path.join(config.output_dir, 'patchworkplot.png'), dpi = 300, transparent = config.transparent)
-    plt.savefig(os.path.join(config.output_dir, 'patchworkplot.pdf'), dpi = 300)
+    plt.savefig(os.path.join(config.output_dir, 'patchworkplot.png'), dpi = 300, bbox_inches='tight',transparent = config.transparent)
+    plt.savefig(os.path.join(config.output_dir, 'patchworkplot.pdf'), dpi = 300, bbox_inches='tight',)
     plt.clf()
 
 def GetFigureSizes(len1, len2):
