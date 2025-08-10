@@ -11,8 +11,6 @@ igdetect_dirs = sys.argv[1].split()
 locus = sys.argv[2]
 output_dir = sys.argv[3]
 
-print(output_dir)
-
 utils.PrepareDir(output_dir)
 
 df = {'SampleID' : [], 'Label' : [], 'Fasta' : [], 'Annotation' : [], 'Strand' : []}
