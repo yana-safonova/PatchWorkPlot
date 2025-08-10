@@ -7,7 +7,7 @@ from Bio import SeqIO
 pwd = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(pwd, 'py'))
 import utils
-import minimap2_utils
+import paf_utils
 
 class InputData:
     def __init__(self, data_csv):
@@ -118,18 +118,38 @@ class YassPairwiseAligner:
 class Minimap2Aligner:
     def __init__(self, config):
         self.config = config
-        #self.minimap2_params = '--secondary=yes -P -k10 -w5 --no-long-join -r 100 -g 500'
-        #self.minimap2_params = '--secondary=yes -P -k10 -w5 --no-long-join -r 1000 -g 10'
-        self.minimap2_params = '--secondary=yes -P -k15 -w10 --no-long-join -r 100 -g 50 -s 150'
 
     def AlignTwoFasta(self, fasta1, fasta2, output_fname):
-        os.system(f'minimap2 {self.minimap2_params} {fasta1} {fasta2} > {output_fname} 2>/dev/null')
+        os.system(f'minimap2 {self.config.minimap2_params} {fasta1} {fasta2} > {output_fname} 2>/dev/null')
 
     def GetAlignedDF(self, output_fname):
-
-        parser = minimap2_utils.Minimap2Reader(output_fname)
+        parser = paf_utils.PafReader(output_fname, sep='\t')
         df = parser.ParsePaf()
         return df
+
+
+class MashmapAligner:
+    def __init__(self, config):
+        self.config = config
+
+    def AlignTwoFasta(self, fasta1, fasta2, output_fname):
+        os.system(f'mashmap -r {fasta1} -q {fasta2} {self.config.mashmap_params} -o {output_fname} 2>/dev/null')
+
+    def GetAlignedDF(self, output_fname):
+        parser = paf_utils.PafReader(output_fname, sep=' ')
+        df = parser.ParsePaf()
+        return df
+
+
+class CustomAligner:
+    def __init__(self, config):
+        self.config = config
+
+    def AlignTwoFasta(self, fasta1, fasta2, output_fname):
+        print('Alignment stage is skipped.')
+
+    def GetAlignedDF(self, output_fname):
+        return pd.read_csv(output_fname, sep='\t')
 
 
 class AlignedData:

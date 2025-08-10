@@ -14,8 +14,10 @@ class Config:
 
         #### alignment params
         self.min_align_len = 5000
-        self.alignment_method = 'lastz' # or 'yass', 'minimap2'
+        self.alignment_method = 'lastz' # or 'yass', 'minimap2', 'mashmap', 'custom'
         self.lastz_params = '--step=20 --notransition'
+        self.minimap2_params = '--secondary=yes -P -k 10 -w 5 --no-long-join -r 100 -g 50'
+        self.mashmap_params = '--pi 70'
 
         #### visualization params
         self.pi_min = 85
@@ -42,6 +44,7 @@ class Config:
         opts = []
         try:
             opts, args = getopt.getopt(command_args, 'i:o:hv::',  ['min-pi=', 'max-pi=', 'aligner=',
+                                                               'minimap2-params=', 'mashmap-params='
                                                                'min-len=', 'cmap=', 'reverse-cmap=',
                                                                'color=', 'lower', 'lwidth=', 'show-annot', 
                                                                'show-bp', 'bp-color=', 'bp-min-len=', 'bp-lwidth=',
@@ -60,6 +63,10 @@ class Config:
                 self.pi_max =  float(arg)
             elif opt == '--aligner':
                 self.alignment_method = arg
+            elif opt == '--minimap2-params':
+                self.minimap2_params = arg
+            elif opt == '--mashmap-params':
+                self.mashmap_params = arg
             elif opt == '--min-len':
                 self.min_align_len = int(arg)
             elif opt == '--cmap':

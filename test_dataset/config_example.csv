@@ -1,0 +1,6 @@
+SampleID,Label,Fasta,Annotation,Strand
+01_mPumCon1.1_hap1,puma 1,PatchWorkPlot/test_dataset/01_mPumCon1.1_hap1_igdetective/refined_ig_loci/igloci_fasta/IGH_CM060209.1_61Vs.fasta,PatchWorkPlot/test_dataset/beds/01_mPumCon1.1_hap1.bed,+
+02_mPumCon1.1_hap2,puma 2,PatchWorkPlot/test_dataset/02_mPumCon1.1_hap2_igdetective/refined_ig_loci/igloci_fasta/IGH_CM060229.1_44Vs.fasta,PatchWorkPlot/test_dataset/beds/02_mPumCon1.1_hap2.bed,+
+03_mNeoNeb1,clouded leopard,PatchWorkPlot/test_dataset/03_mNeoNeb1_igdetective/refined_ig_loci/igloci_fasta/IGH_SUPER_7_87Vs.fasta,PatchWorkPlot/test_dataset/beds/03_mNeoNeb1.bed,-
+04_mLynRuf1,bobcat,PatchWorkPlot/test_dataset/04_mLynRuf1_igdetective/refined_ig_loci/igloci_fasta/IGH_NW_025814831.1_45Vs.fasta,PatchWorkPlot/test_dataset/beds/04_mLynRuf1.bed,+
+05_mFelCat1,domestic cat,PatchWorkPlot/test_dataset/05_mFelCat1_igdetective/refined_ig_loci/igloci_fasta/IGH_AP023157.1_71Vs.fasta,PatchWorkPlot/test_dataset/beds/05_mFelCat1.bed,-
