@@ -21,8 +21,11 @@ An example of the configuration file can be found in `test_dataset/config_exampl
 
 ### Optional parameters
 `--aligner NAME`: the name of a tool used for pairwise alignment sequences. `lastz` (LASTZ), `yass` (YASS), `minimap2` (minimap2), `mashmap` (mashmap) options are available. Default: `lastz`. Custom aligner option is described in paragraph `Usage` further.
-`--minimap2-params "PARAMS"`: default minimap2 parameters are set as `--secondary=yes -P -k 10 -w 5 --no-long-join -r 100 -g 50`. Custom minimiap2 parameters can be set with this argument. 
-`--mashmap-params "PARAMS"`: default mashmap parameters are set as `--pi 70`
+
+`--minimap2-params "PARAMS"`: default minimap2 parameters are set as "`--secondary=yes -P -k 10 -w 5 --no-long-join -r 100 -g 50`". Custom minimiap2 parameters can be set with this argument. 
+
+`--mashmap-params "PARAMS"`: default mashmap parameters are set as "`--pi 70`".
+
 `--cmap NAME`: the name of a coloring map used for visualization of alignments. The minimum and maximum values of percent identity thresholds (`min-pi` and `max-pi`) will be used to determine the color of the alignment: 
 - Alignments with percent identity below `min-pi` will be shown using the leftmost color in the coloring cmap.
 - Alignments with percent identity above `max-pi` will be shown using the rightmost color in the coloring map.
@@ -40,7 +43,7 @@ For the list of available coloring maps, please refer to the [Matplotlib documen
 
 `--min-len INT`: only alignments of lengths exceeding `min-len` will be visualized. Default: `5000`.
 
-`--lwidth INT`: the width of lines showing alignments on the final plot. Default: `1`. 
+`--lwidth FLOAT`: the width of lines showing alignments on the final plot. Default: `1`. 
 
 `--lower`: if specified, alignments will be visualized as a lower triangular matrix instead of an upper triangular matrix. 
 
@@ -54,7 +57,7 @@ For the list of available coloring maps, please refer to the [Matplotlib documen
 
 `--bp-min-len INT`: minimum length of the alignment to frame with lines. Default is `10000`. 
 
-`--bp-lwidth INT`: the width of lines framing the alignemnt breakpoints. Default is `0.2`. 
+`--bp-lwidth FLOAT`: the width of lines framing the alignemnt breakpoints. Default is `0.2`. 
 
 `--transparent`: if specified, the .PNG version of the plot will have a transparent background.  
 
