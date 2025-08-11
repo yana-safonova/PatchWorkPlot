@@ -4,7 +4,7 @@ A tool for visualization of pairwise alignments of multiple sequences as [dot pl
 ## Dependencies
 - [Pandas](https://anaconda.org/anaconda/pandas)
 - [BioPython](https://anaconda.org/conda-forge/biopython)
-- [LASTZ](https://anaconda.org/bioconda/lastz) / [YASS](https://anaconda.org/bioconda/yass) / [minimap2](https://anaconda.org/bioconda/minimap2) / [MashMap](https://github.com/marbl/MashMap) or custom aligner
+- [LASTZ](https://anaconda.org/bioconda/lastz) / [minimap2](https://anaconda.org/bioconda/minimap2) / [MashMap](https://github.com/marbl/MashMap)
 
 ## Input Parameters
 ### Required parameters
