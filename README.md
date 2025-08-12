@@ -159,4 +159,7 @@ The custom `PAF_CONFIG.CSV` file should contain columns `name1`, `name2`, `pafPa
 | Parameters | `--show-annot --lwidth 2 --min-len 10000 --cmap Greens --reverse-cmap false --min-pi 80 --skip-legend` | `--show-annot --lower --lwidth 2 --min-len 15000 --cmap viridis --min-pi 75 --skip-legend` |
 
 ## Citation
+If you used PatchWorkPlot, please cite:
 Pospelova M, Safonova Y. PatchWorkPlot: simultaneous visualization of local alignments across multiple sequences. arXiv. 2025. https://arxiv.org/abs/2503.20766.
+
+Zenodo archive: https://doi.org/10.5281/zenodo.16816453
