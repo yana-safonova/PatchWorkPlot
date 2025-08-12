@@ -4,7 +4,28 @@ A tool for visualization of pairwise alignments of multiple sequences as [dot pl
 ## Dependencies
 - [Pandas](https://anaconda.org/anaconda/pandas)
 - [BioPython](https://anaconda.org/conda-forge/biopython)
-- [LASTZ](https://anaconda.org/bioconda/lastz) / [minimap2](https://anaconda.org/bioconda/minimap2) / [MashMap](https://github.com/marbl/MashMap)
+- [Matplotlib](https://matplotlib.org/stable/install/index.html)
+- [Seaborn](https://seaborn.pydata.org/installing.html) 
+- Alignment tools: [LASTZ](https://anaconda.org/bioconda/lastz) / [minimap2](https://anaconda.org/bioconda/minimap2) / [MashMap](https://github.com/marbl/MashMap)
+
+You can only install the aligner(s) that you plan to use (see the `--aligner` option below). By no aligner is specified, PatchWorkPlot will attempt to use LastZ, so its installation is required for usage with default parameters. 
+
+## Installation
+The following installation options are available:
+
+### Option 1: Downloading the repository files
+Install the dependencies above, clone or download the repository, and run PatchWorkPlot:
+
+`python path_to_patchworkplot_directory/PatchWorkPlot.py --help`
+
+### Option 2:
+Install alignment tools, run the pip command:
+
+`pip install patchworkplot`
+
+Run PatchWorkPlot as following:
+
+`patchworkplot --help`
 
 ## Input Parameters
 ### Required parameters
