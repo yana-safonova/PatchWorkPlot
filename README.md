@@ -30,7 +30,7 @@ Run PatchWorkPlot as following:
 ### Option 3:
 Run the conda command:
 
-`conda install ysafonova::patchworkplot`
+`conda install ysafonova::patchworkplot -c bioconda -c conda-forge`
 
 Run PatchWorkPlot as following:
 
