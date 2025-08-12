@@ -15,7 +15,7 @@ class Config:
         #### alignment params
         self.min_align_len = 5000
         self.alignment_method = 'lastz' # or 'yass', 'minimap2', 'mashmap', 'custom'
-        self.lastz_params = '--step=20 --notransition'
+        self.lastz_params = '--step=20 --notransition --allocate:traceback=2130706432'
         self.minimap2_params = '--secondary=yes -P -k 10 -w 5 --no-long-join -r 100 -g 50'
         self.mashmap_params = '--pi 70'
 
@@ -43,13 +43,13 @@ class Config:
     def _ParseCommandLineParams(self, command_args):
         opts = []
         try:
-            opts, args = getopt.getopt(command_args, 'i:o:hv::',  ['min-pi=', 'max-pi=', 'aligner=',
+            opts, args = getopt.getopt(command_args, 'i:o:h:v:',  ['min-pi=', 'max-pi=', 'aligner=',
                                                                'minimap2-params=', 'mashmap-params=',
                                                                'min-len=', 'cmap=', 'reverse-cmap=',
                                                                'color=', 'lower', 'lwidth=', 'show-annot', 
                                                                'show-bp', 'bp-color=', 'bp-min-len=', 'bp-lwidth=',
                                                                'transparent', 'help',
-                                                               'verbose=', 'v=', 'hide-legend'])
+                                                               'verbose=', 'hide-legend'])
         except Exception as e:
             print(f"An error occurred: {e}")
             sys.exit(1)
