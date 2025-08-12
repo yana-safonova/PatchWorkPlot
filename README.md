@@ -27,6 +27,15 @@ Run PatchWorkPlot as following:
 
 `patchworkplot --help`
 
+### Option 3:
+Run the conda command:
+
+`conda install ysafonova::patchworkplot`
+
+Run PatchWorkPlot as following:
+
+`patchworkplot --help`
+
 ## Input Parameters
 ### Required parameters
 `-i INPUT_CONFIG.CSV` or `-i INPUT_CONFIG.TSV`: a configuration file containing information about input sequences in the CSV/TSV format. The configuration file contains the following columns:
